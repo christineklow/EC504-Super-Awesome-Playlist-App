@@ -1,5 +1,5 @@
 
-//package PlaylistProject; //keep this stupid thing I guess
+  
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,12 +18,12 @@ public class PlaylistProject{
         
         
         //label
-	JLabel jlbempty = new JLabel("Enter PlayList?");
-	jlbempty.setPreferredSize(new Dimension(100, 100));
+        JLabel jlbempty = new JLabel("Enter PlayList?");
+        jlbempty.setPreferredSize(new Dimension(100, 100));
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
-	panel.add(jlbempty, c);
+        panel.add(jlbempty, c);
         
         JLabel label = new JLabel("");
         label.setPreferredSize(new Dimension(100, 100));
@@ -78,13 +78,13 @@ public class PlaylistProject{
        
         
         //frame to encapsulate panel and pack components in
-	JFrame frame = new JFrame("PlayList Project");
+        JFrame frame = new JFrame("PlayList Project");
         frame.addWindowListener(new WindowAdapter() {
-	public void windowClosing(WindowEvent e) {
-            System.exit(0);
-	}
-	});
-	frame.add(panel);
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+        frame.add(panel);
         frame.setSize(500, 500);
         frame.setVisible(true);
         
