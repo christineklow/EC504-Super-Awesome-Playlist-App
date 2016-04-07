@@ -27,6 +27,24 @@ using namespace std;
 	Use C++ to minimize runtime?
 **/
 
+/** IMPLEMENTATION
+	Data Structure Ideas: Binary Search Tree
+	string for playlist name
+	
+	class for song, playlist
+
+	functions
+	input manual
+	input from text filename 
+
+	error check is actual song
+
+	display 8 most popular playlist
+	remove least popular playlist
+
+	given song, display most popular playlist
+**/
+
 // returns data structure listing playlists that contain songs
 void getSong(){
 	//
