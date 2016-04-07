@@ -11,6 +11,7 @@ public class PlaylistProject{
      */
     public static void main(String[] args) {
         
+        Color aColor = new Color(0x0DCCD6);
         
         //creating a panel to combine items
         JPanel panel = new JPanel(new GridBagLayout());
@@ -49,12 +50,14 @@ public class PlaylistProject{
         //Radio Buttons
         ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton y = new JRadioButton("Text File");
+        y.setBackground(aColor);
         buttonGroup.add(y);
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 1;
         panel.add(y, c);
         JRadioButton n = new JRadioButton("Manual Input");
+        n.setBackground(aColor);
         buttonGroup.add(n);
         c.weightx = 0.5;
         c.gridx = 0;
@@ -76,7 +79,7 @@ public class PlaylistProject{
         c.gridy = 2;
         panel.add(startButton2, c);
        
-        
+        panel.setBackground(aColor);
         //frame to encapsulate panel and pack components in
         JFrame frame = new JFrame("PlayList Project");
         frame.addWindowListener(new WindowAdapter() {
