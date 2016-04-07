@@ -17,12 +17,12 @@ public class PlaylistProject{
         
         
         //label
-        JLabel jlbempty = new JLabel("Awesome Playlist App");
+        JLabel jlbempty = new JLabel("\u266B Awesome Playlist App \u266B");
         jlbempty.setForeground(Color.WHITE);
         jlbempty.setFont(new Font("Monaco", Font.BOLD, 40));
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(0,25,40,0);
-        c.gridwidth = 3;
+        c.insets = new Insets(0,75,40,0);
+        c.gridwidth = 6;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
@@ -44,6 +44,7 @@ public class PlaylistProject{
         JTextField t1 = new JTextField(10);
         c.gridwidth = 1;
         c.weightx = 0.5;
+        c.insets = new Insets(40,0,40,0);
         c.gridx = 1;
         c.gridy = 2;
         panel.add(t1, c);
@@ -51,6 +52,7 @@ public class PlaylistProject{
         
         
         //Radio Buttons
+        c.insets = new Insets(0,0,0,0);
         ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton y = new JRadioButton("Text File");
         y.setBackground(aColor);
@@ -78,11 +80,23 @@ public class PlaylistProject{
         JButton startButton = new JButton("Submit");
         startButton.setPreferredSize(new Dimension(100, 25));
         c.gridwidth = 1;
+        c.insets = new Insets(30,0,30,0);
         c.weightx = 0.5;
         c.gridx = 2;
         c.gridy = 2;
         panel.add(startButton, c);
+        
+        JLabel searchLabel = new JLabel("Search Results");
+        searchLabel.setFont(new Font("Monaco", Font.BOLD, 24));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(0,100,0,0);
+        c.gridwidth = 3;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 3;
+        panel.add(searchLabel, c);
        
+        
         panel.setBackground(aColor);
         //frame to encapsulate panel and pack components in
         JFrame frame = new JFrame("PlayList Project");
@@ -93,7 +107,7 @@ public class PlaylistProject{
             }
         });
         frame.add(panel);
-        frame.setSize(500, 500);
+        frame.setSize(700, 700);
         frame.setVisible(true);
         
         
