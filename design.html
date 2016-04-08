@@ -1,6 +1,6 @@
 <style>
   body {
-  padding-top: 80px;
+  padding-top: 50px;
   text-align: center;
   font-family: monaco, monospace;
   background-size: cover;
@@ -30,22 +30,93 @@ p{
 }
 
 
-</style>
-<h1>Awesome Playlist App</h1><br>
-<h2> Enter Playlist
-  <input type="radio" name="gender" value="text"> Text
-  <input type="radio" name="gender" value="manual"> Manual Input<br>
-  <form action="demo_form.asp">
-  <input type="text" name="fname">
-  <input type="submit" value="Submit">
-  </form>
-</h2>
+.tabs {
+  position: relative;   
+  height: 90%;
+  clear: both;
+  font-family: monaco, monospace;
+}
+.tab {
+  float: left;
+}
+.tab label {
+  background: lightgrey; 
+  padding: 10px; 
+  left: 1px; 
+  font-family: monaco, monospace;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.tab [name=tab-group-1] {
+  display: none;   
+}
+.content {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  right: 0;
+  bottom: 100;
+  padding: 20px;
+  border: 3px solid white; 
+  background: #0DCCD6;
+  overflow:auto;
+  font-family: monaco, monospace;
+}
+[type=radio]:checked ~ label {
+  background: white;
+  z-index: 2;
+}
+[type=radio]:checked ~ label ~ .content {
+  z-index: 1;
+}
 
-<br>
-<p><b>Search Results</b>
-  <br> <ul>
-  <li>I'm Such a Fucking Pretty App
-  <li> I'm on a Boat
-  <li> I'm on Fucking a Boat
-  </ul>
-</p>
+</style>
+<h1>&#9835 Awesome Playlist App &#9835</h1><br>
+
+<br><br>
+<div class="tabs">
+    
+   <div class="tab">
+       <input type="radio" id="tab-1" name="tab-group-1" checked>
+       <label for="tab-1">Search Song</label>
+       
+       <div class="content">
+           <h2> Enter Song
+              <br><br>
+              <input type="text" name="fname" size="100" height="25">
+              <input type="submit" value="Submit">
+              </form>
+            </h2>
+          
+            <p><b>Search Results</b>
+            <ul>
+              <li>I'm Such a Fucking Pretty App
+              <li> I'm on a Boat
+              <li> I'm on Fucking a Boat
+            </ul>
+          </p>
+       </div> 
+   </div>
+    
+   <div class="tab">
+       <input type="radio" id="tab-2" name="tab-group-1">
+       <label for="tab-2">Enter Playlist</label>
+       
+       <div class="content">
+          <h2> Enter Playlist
+              <input type="radio" name="textfile" value="text"> Text
+              <input type="radio" name="manual" value="manual"> Manual Input<br>
+              <br>
+              <input type="text" name="fname" size="100" height="25">
+              <input type="submit" value="Submit">
+              </form>
+            </h2>
+          
+          <p>
+            <b>...Playlist Added!</b>
+          </p>
+       </div> 
+   </div>
+    
+    
+</div>
