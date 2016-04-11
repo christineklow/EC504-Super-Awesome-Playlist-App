@@ -6,8 +6,6 @@
 	Alexandra Nero
 **/
 #include <iostream>
-<<<<<<< HEAD
-=======
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -15,7 +13,6 @@
 #include <utility>
 #include <unordered_map>
 
->>>>>>> origin/master
 using namespace std;
 
 /** Goals/Requirements:
@@ -37,7 +34,6 @@ using namespace std;
 	Use C++ to minimize runtime?
 **/
 
-<<<<<<< HEAD
 /** IMPLEMENTATION
 	Data Structure Ideas: Binary Search Tree
 	string for playlist name
@@ -56,10 +52,6 @@ using namespace std;
 	given song, display most popular playlist
 **/
 
-// returns data structure listing playlists that contain songs
-void getSong(){
-	//
-=======
 struct songData {
         songData() : songID() {}
         songData(string newID)
@@ -177,7 +169,6 @@ void getSongPlaylist(string searchName){
 		}
 	}
 	else cout<<"Song does not exist in database"<<endl;
->>>>>>> origin/master
 }
 
 void removeLeastPopular(){
@@ -212,8 +203,6 @@ void addPlaylist(string playlistInput){
 
 
 int main(){
-<<<<<<< HEAD
-=======
 
 	try{
 		loadSongs();
@@ -246,6 +235,5 @@ int main(){
 
 	//addPlaylist(searchName);
 
->>>>>>> origin/master
 	return 0;
 }
