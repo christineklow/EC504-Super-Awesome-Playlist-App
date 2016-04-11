@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class PlaylistProject{
 
@@ -73,6 +76,13 @@ public class PlaylistProject{
         c.gridx = 0;
         c.gridy = 2;
         c.insets = new Insets(0,40,5,40);
+        List<String> items = new ArrayList<String>();
+        items.add("hell");
+        items.add("hello");
+        items.add("marwen");
+        items.add("allooo");
+        items.add("i like you");
+        AutoCompleteDecorator.decorate(t1, items, false);
         PlayListPanel.add(t1, c);
         
         //submit button
