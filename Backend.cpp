@@ -17,16 +17,16 @@ using namespace std;
 
 /** Goals/Requirements:
 
-	Able to fetch playlists by included song based on playlist popularity
+	Able to fetch playlists by included song based on playlist popularity 	// DONE
 		Playlist object with attribute song list, Popularity
 
-	Able to display the most popular playlists
+	Able to display the most popular playlists 			// DONE
 		Use data struct with most popular on top?
 
-	Able to insert new playlist(s) (<=128 at a time, by file, or 1 at a time by UI) and least pop. playlist gets removed if playlistCount > 1024
+	Able to insert new playlist(s) (<=128 at a time, by file, or 1 at a time by UI) and least pop. playlist gets removed if playlistCount > 1024 	// DONE
 		Pop the least popular off the bottom?
 
-	Popularity of song == Sum(popularity of playlists song resides)
+	Popularity of song == Sum(popularity of playlists song resides) 	// DONE
 		Have Song object, Playlist object, each with lists of the other they are linked to?
 
 	Must compute the complexity of each function
@@ -35,19 +35,19 @@ using namespace std;
 **/
 
 /** IMPLEMENTATION
-	Data Structure Ideas: Binary Search Tree
+	Data Structure Ideas: Binary Search Tree, map
 	string for playlist name
 	
-	class for song, playlist
+	class for song, playlist?
 
 	functions
-	input manual
+	input manual 							// DONE
 	input from text filename 
 
-	error check is actual song
+	error check is actual song 				// DONE
 
-	display 8 most popular playlist
-	remove least popular playlist
+	display 8 most popular playlist 		// DONE
+	remove least popular playlist 			// DONE
 
 	given song, display most popular playlist
 **/
@@ -91,8 +91,9 @@ struct songData {
 };
 
 map<string,songData> songList;			// database of songs with the songID and popularity
+map<int*,string> popularSongs;			// pointer to song list sorted by popularity
 unordered_map<string,int> playlistDB;	// database of playlists with the popularity
-map<int,string> popularityDB;			// databse of playlists sorted by popularity
+multimap<int,string> popularityDB;		// database of playlists sorted by popularity
 
 void loadSongs(){
 	// load songs from song_list.txt into datastructure songList
@@ -106,7 +107,7 @@ void loadSongs(){
 	// finds playlists the song is in
 	string tempSong, tempArtist, tempID;
 
-	while( !file.eof() ){
+	while( !file.eof() ){ 					/*** O(n) where n is # of characters in file ***/
 		getline (file,tempID,'\t');
 		getline (file,tempSong,'\t');
 		getline (file,tempArtist,'\n');
@@ -123,12 +124,12 @@ void loadSongs(){
 }
 
 // returns iterator of song if it exists in database
-map<string,songData>::iterator getSong(string searchName){
+map<string,songData>::iterator getSong(string searchName){ 	/*** finding a string using map is O(mlogn)  where m is string length, n is # of elements in map***/
 
 	cout<< "\nSearching for: " << searchName <<endl;
 
 	map<string,songData>::iterator it;
-	it = songList.find(searchName);		// Search for song in database
+	it = songList.find(searchName);		// Search for song in database 
 	
 	if (it != songList.end()){			// if song exists in database
     	cout << "SONG NAME: " << it->first << "     SONG ID: " << it->second.songID << endl;
@@ -149,10 +150,10 @@ void getSongPlaylist(string searchName){
 		int songPopularity = 0;
 
 		// search playlist database for playlists that contains song
-		for( unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){
+		for( unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){ /*** O(nm) where n is # of elements in playlistDB, m is length of playlist name ***/
 
 			// if the playlist contains the song
-			if(it-> first.find( songSearch -> second.songID) != string::npos){
+			if(it-> first.find( songSearch -> second.songID) != string::npos){ 
 				songPlaylists[it -> second] = it -> first;	// add playlist to songPlaylists sorted automatically by popularity
 				songPopularity++; 							// increment song popularity based on how many playlists its in
 			}
@@ -163,7 +164,7 @@ void getSongPlaylist(string searchName){
 		// list top 8 playlists
 		cout<<"\nTop 8 Playlists: "<<endl;
 		map<int, string>:: iterator it = songPlaylists.end();
-		for( int count = 0; count < 8 && it != songPlaylists.begin() ; count++){
+		for( int count = 0; count < 8 && it != songPlaylists.begin() ; count++){ /*** O(n) where n is 8 ***/
 			it--;
 			cout<< it -> second << ": " << it -> first <<endl;
 		}
@@ -171,11 +172,34 @@ void getSongPlaylist(string searchName){
 	else cout<<"Song does not exist in database"<<endl;
 }
 
+// function removes least popular playlist from the database if there are more than 1024 playlists
 void removeLeastPopular(){
 	if( playlistDB.size() > 1024 ){
-		//look for least popular and remove least popular
+		multimap<int, string>:: iterator popIter = popularityDB.begin();	// first playlist of the popularityDB is the least popular
+		unordered_map<string, int>:: iterator playlistIter;
 
+		//look for least popular playlist and remove it
+		playlistIter = playlistDB.find(popIter -> second);		// get pointer to least popular playlist in playlist databse
+		playlistDB.erase(playlistIter);							// erase the playlist from playlistDB
+		popularityDB.erase(popIter);							// erase the playlist from popularity database
 	}
+}
+
+void updatePlaylistPopularity(int oldPopularity, string playlistName, int newPopularity){
+	typedef multimap<int, string>:: iterator iterator;
+	std::pair<iterator, iterator> iterpair = popularityDB.equal_range(oldPopularity);
+
+	// erase playlist with old popularity
+	iterator it = iterpair.first;
+	for (; it != iterpair.second; ++it) {
+	    if( it -> second == playlistName) { 
+	        popularityDB.erase(it);
+	        break;
+	    }
+	}
+
+	// insert playlist with updated popularity
+	popularityDB.insert( std::pair<int,string>(newPopularity, playlistName) );
 }
 
 // adds playlist to database
@@ -192,13 +216,31 @@ void addPlaylist(string playlistInput){
 
 	// check to see if playlist has been added already
 	unordered_map<string, int>:: iterator it = playlistDB.find(playlistSongs);
-	if( it != playlistDB.end() ){					// playlist is already in database
-		it -> second = it -> second + popularity;	// update popularity of playlist
+	if( it != playlistDB.end() ){						// if playlist is already in database
+		int newPopularity = it -> second + popularity;	// new popularity of playlist
+
+		updatePlaylistPopularity(it -> second, playlistSongs, newPopularity);	// update popularity in popularityDB
+		it -> second = newPopularity;	// update popularity of playlist in playlistDB
 	}
-	else playlistDB[playlistSongs] = popularity; 	// if it does not exist yet, add it
+	else{	// if it does not exist yet, add it to the database
+		playlistDB[playlistSongs] = popularity; 
+		popularityDB.insert( std::pair<int,string>(popularity, playlistSongs) );
+	}
 
 	// check to see if there are more than 1024 playlists, if so remove least popular
 	removeLeastPopular();
+}
+
+// lists top 8 most popular playlists
+void mostPopularPlaylist(){
+	
+	multimap<int, string>:: iterator it = popularityDB.end();	// the most popular playlists are at the end of the database
+	// list top 8 playlists
+	cout<<"\nTop 8 Playlists: "<<endl;
+	for( int count = 0; count < 8 && it != popularityDB.begin() ; count++){
+		it--;
+		cout<< it -> second << ": " << it -> first <<endl;
+	}
 }
 
 
@@ -211,7 +253,9 @@ int main(){
 		cerr << msg << endl;
 	}
 
+	string userInput;
 
+	/*************************************/
 	// generating test playlists
 	playlistDB["1 2 3 4"] = 1;
 	playlistDB["4 5 6"] = 2;
@@ -228,12 +272,28 @@ int main(){
 	playlistDB["4 9 6"] = 13;
 	playlistDB["4 5 6"] = 14;
 
-	string searchName;
-	cout << "\nEnter Song to Search: ";
-	getline(std::cin,searchName);
-	getSongPlaylist(searchName);
+	// add playlist to popularityDB
+	for(unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){
+		popularityDB.insert( std::pair<int,string>(it->second, it->first) );
+	}
 
-	//addPlaylist(searchName);
+	/*************************************/
+
+	// testing song searching
+	cout << "\nEnter Song to Search: ";
+	getline(std::cin,userInput);
+	getSongPlaylist(userInput);
+
+	/*************************************/
+
+	// testing adding playlist and listing most popular
+	cout << "\nEnter Playlist to add: ";
+	getline(std::cin,userInput);
+	addPlaylist(userInput);
+
+	mostPopularPlaylist();
+
+	/*************************************/
 
 	return 0;
 }
