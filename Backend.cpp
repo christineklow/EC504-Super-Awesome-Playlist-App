@@ -100,7 +100,7 @@ void loadSongs(){
 	cout<<"Loading songs..." <<endl<<"..."<<endl;
 
 	ifstream file;	// open file with song list
-	file.open("song_list.txt");
+	file.open("Datasets/song_list.txt");
 
 	if( file.fail() ) throw "Error in loading songs";	// if file did not open sucessfully, throw exception
 
@@ -113,10 +113,10 @@ void loadSongs(){
 		getline (file,tempArtist,'\n');
 		songList[tempSong] = songData(tempID);
 	}
-
+/*
 	for ( map<string,songData>::iterator it= songList.begin(); it!=songList.end(); ++it)
     cout << "SONG NAME: " << it->first << "     SONG ID: " << it->second.songID << endl;
-
+*/
 	cout<<"...\nSongs loaded."<<endl;
 
 	file.close(); // close file
@@ -168,13 +168,14 @@ void getSongPlaylist(string searchName){
 			it--;
 			cout<< it -> second << ": " << it -> first <<endl;
 		}
+
 	}
 	else cout<<"Song does not exist in database"<<endl;
 }
 
 // function removes least popular playlist from the database if there are more than 1024 playlists
 void removeLeastPopular(){
-	if( playlistDB.size() > 1024 ){
+	if( playlistDB.size() >= 1024 ){
 		multimap<int, string>:: iterator popIter = popularityDB.begin();	// first playlist of the popularityDB is the least popular
 		unordered_map<string, int>:: iterator playlistIter;
 
@@ -202,7 +203,7 @@ void updatePlaylistPopularity(int oldPopularity, string playlistName, int newPop
 	popularityDB.insert( std::pair<int,string>(newPopularity, playlistName) );
 }
 
-// adds playlist to database
+// adds playlist to database manually
 void addPlaylist(string playlistInput){
 
 	string playlistSongs, temp_popularity;
@@ -231,6 +232,27 @@ void addPlaylist(string playlistInput){
 	removeLeastPopular();
 }
 
+void importPlaylists(string filename){
+	
+	ifstream file;	// open file with playlists
+	file.open(filename);
+
+	if( file.fail() ) throw "Error in opening file";	// if file did not open sucessfully, throw exception
+
+	// finds playlists the song is in
+	string playlistData;/*
+	getline(file,playlistData,'\n');	// get playlist from line of file
+	cout<<playlistData<<endl;
+	addPlaylist(playlistData);
+*/
+	while( !file.eof() ){ 					
+		getline(file,playlistData,'\n');					// get playlist from line of file
+		if(playlistData != "") addPlaylist(playlistData);	// add the playlist to the database if its not an empty line
+	}
+
+	file.close();
+}
+
 // lists top 8 most popular playlists
 void mostPopularPlaylist(){
 	
@@ -248,52 +270,61 @@ int main(){
 
 	try{
 		loadSongs();
+
+		string userInput;
+
+		/*************************************/
+		// generating test playlists
+		/*playlistDB["1 2 3 4"] = 1;
+		playlistDB["4 5 6"] = 2;
+		playlistDB["2 5 6"] = 3;
+		playlistDB["1 4 6"] = 4;
+		playlistDB["7 4 8"] = 5;
+		playlistDB["4 5 9"] = 6;
+		playlistDB["4 5 10"] = 7;
+		playlistDB["4 8 6"] = 8;
+		playlistDB["3 4 6"] = 9;
+		playlistDB["7 5 4"] = 10;
+		playlistDB["1 5 4"] = 11;
+		playlistDB["3 4 9"] = 12;
+		playlistDB["4 9 6"] = 13;
+		playlistDB["4 5 6"] = 14;
+
+		// add playlist to popularityDB
+		for(unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){
+			popularityDB.insert( std::pair<int,string>(it->second, it->first) );
+		}
+	*/
+		/*************************************/
+
+		// testing importing playlist
+		cout << "\nEnter playlist file: ";
+		getline(std::cin,userInput);
+
+		importPlaylists(userInput);
+
+		/*************************************/
+
+		// testing song searching
+		cout << "\nEnter Song to Search: ";
+		getline(std::cin,userInput);
+		getSongPlaylist(userInput);
+
+		/*************************************/
+
+		// testing adding playlist and listing most popular
+		cout << "\nEnter Playlist to add: ";
+		getline(std::cin,userInput);
+		addPlaylist(userInput);
+
+		mostPopularPlaylist();
+
+		/*************************************/
+
 	}
 	catch(const char* msg){ // Error in opening file
 		cerr << msg << endl;
 	}
-
-	string userInput;
-
-	/*************************************/
-	// generating test playlists
-	playlistDB["1 2 3 4"] = 1;
-	playlistDB["4 5 6"] = 2;
-	playlistDB["2 5 6"] = 3;
-	playlistDB["1 4 6"] = 4;
-	playlistDB["7 4 8"] = 5;
-	playlistDB["4 5 9"] = 6;
-	playlistDB["4 5 10"] = 7;
-	playlistDB["4 8 6"] = 8;
-	playlistDB["3 4 6"] = 9;
-	playlistDB["7 5 4"] = 10;
-	playlistDB["1 5 4"] = 11;
-	playlistDB["3 4 9"] = 12;
-	playlistDB["4 9 6"] = 13;
-	playlistDB["4 5 6"] = 14;
-
-	// add playlist to popularityDB
-	for(unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){
-		popularityDB.insert( std::pair<int,string>(it->second, it->first) );
-	}
-
-	/*************************************/
-
-	// testing song searching
-	cout << "\nEnter Song to Search: ";
-	getline(std::cin,userInput);
-	getSongPlaylist(userInput);
-
-	/*************************************/
-
-	// testing adding playlist and listing most popular
-	cout << "\nEnter Playlist to add: ";
-	getline(std::cin,userInput);
-	addPlaylist(userInput);
-
-	mostPopularPlaylist();
-
-	/*************************************/
 
 	return 0;
 }
