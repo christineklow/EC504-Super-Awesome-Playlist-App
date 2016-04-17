@@ -4,13 +4,31 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class PlaylistProject{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+   /*public ArrayList executeCommand(String command){
+       String s;
+       try {
+           Runtime rt = Runtime.getRuntime();
+           Process pr = rt.exec("./a.out");
+           BufferedReader br = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+           while ((s= br.readLine()) != null)
+                System.out.println(s);
+                pr.waitFor();
+                //System.out.println("exit: "+ pr.exitValue());
+                pr.destroy();
+       }
+       catch (Exception e) {
+           System.out.println(e.toString());
+           e.printStackTrace();
+	   }
+   }*/
+    
+    
+   public static void main(String[] args) {
         
         Color aColor = new Color(0x0DCCD6);
         
@@ -76,13 +94,6 @@ public class PlaylistProject{
         c.gridx = 0;
         c.gridy = 2;
         c.insets = new Insets(0,40,5,40);
-        List<String> items = new ArrayList<String>();
-        items.add("hell");
-        items.add("hello");
-        items.add("marwen");
-        items.add("allooo");
-        items.add("i like you");
-        AutoCompleteDecorator.decorate(t1, items, false);
         PlayListPanel.add(t1, c);
         
         //submit button
@@ -123,28 +134,50 @@ public class PlaylistProject{
         cSearch.fill = GridBagConstraints.HORIZONTAL;
         cSearch.gridwidth = 3;
         cSearch.weightx = 0.5;
-        cSearch.insets = new Insets(0,40,5,40);
+        cSearch.insets = new Insets(0,40,0,40);
         cSearch.gridx = 0;
         cSearch.gridy = 1;
         SearchPanel.add(t2, cSearch);
+        
+        
+        DefaultListModel listModel = new DefaultListModel();
+        listModel.addElement("Love Hurts");
+        listModel.addElement("Love Letter");
+        listModel.addElement("Love Song");
+        listModel.addElement("Love Me Do");
+        JList list = new JList(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.setVisibleRowCount(4);
+        JScrollPane listScrollPane = new JScrollPane(list);
+        cSearch.gridwidth = 3;
+        cSearch.gridheight = 4;
+        cSearch.weightx = 0.5;
+        cSearch.insets = new Insets(0,40,30,40);
+        cSearch.gridx = 0;
+        cSearch.gridy = 2;
+        //SearchPanel.add(listScrollPane, cSearch);
+        
+        
         //submit button
         JButton submitButton = new JButton("Submit");
         submitButton.setFont(new Font("Lucida", Font.PLAIN, 18));
         cSearch.fill = GridBagConstraints.NONE;
         cSearch.gridwidth = 1;
-        cSearch.insets = new Insets(0,0,30,0);
+        cSearch.insets = new Insets(5,0,30,0);
         cSearch.weightx = 0.5;
         cSearch.gridx = 1;
-        cSearch.gridy = 3;
+        cSearch.gridy = 7;
         SearchPanel.add(submitButton, cSearch);
-        //search result
+        
+        //search Results
         JLabel searchLabel = new JLabel(" ");
         searchLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
-        cSearch.insets = new Insets(0,0,0,0);
+        cSearch.insets = new Insets(50,0,0,0);
         cSearch.gridwidth = 1;
         cSearch.weightx = 0.5;
         cSearch.gridx = 1;
-        cSearch.gridy = 4;
+        cSearch.gridy = 8;
         SearchPanel.add(searchLabel, cSearch);
       
         PlayListPanel.setBackground(aColor);
@@ -178,25 +211,48 @@ public class PlaylistProject{
             }
         });
         frame.add(splitPane);
-        frame.setSize(600, 600);
+        frame.setSize(700, 700);
         frame.setVisible(true);
-        
         
         
         startButton.addActionListener(new ActionListener() 
         {
- 
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-                //String text = t1.getText();
-                //t1.setText("");
-                //label.setText(text);
-                //panel.revalidate();
             }
         });
         
+        submitButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                //search Results
+                String textfield2 = t2.getText();
+                if (textfield2.length() != 0){
+                    
+                    searchLabel.setText("Search Results");
+                }
+                t2.setText("");
+            }
+        
+        });
+        
+        t2.getDocument().addDocumentListener(new DocumentListener()
+        {
+            public void changedUpdate(DocumentEvent e)
+            {
+
+            }
+
+            public void insertUpdate(DocumentEvent e) 
+            {
+
+            }
+
+            public void removeUpdate(DocumentEvent e)
+            {
+
+            }
+        });
     }
-    
-    
 }

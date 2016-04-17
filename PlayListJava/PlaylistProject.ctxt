@@ -1,9 +1,11 @@
 #BlueJ class context
 comment0.params=args
 comment0.target=void\ main(java.lang.String[])
-comment0.text=\r\n\ @param\ args\ the\ command\ line\ arguments\r\n
+comment0.text=public\ ArrayList\ executeCommand(String\ command){\r\n\ \ \ \ \ \ \ String\ s;\r\n\ \ \ \ \ \ \ try\ {\r\n\ \ \ \ \ \ \ \ \ \ \ Runtime\ rt\ \=\ Runtime.getRuntime();\r\n\ \ \ \ \ \ \ \ \ \ \ Process\ pr\ \=\ rt.exec("./a.out");\r\n\ \ \ \ \ \ \ \ \ \ \ BufferedReader\ br\ \=\ new\ BufferedReader(new\ InputStreamReader(pr.getInputStream()));\r\n\ \ \ \ \ \ \ \ \ \ \ while\ ((s\=\ br.readLine())\ \!\=\ null)\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ System.out.println(s);\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pr.waitFor();\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //System.out.println("exit\:\ "+\ pr.exitValue());\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pr.destroy();\r\n\ \ \ \ \ \ \ }\r\n\ \ \ \ \ \ \ catch\ (Exception\ e)\ {\r\n\ \ \ \ \ \ \ \ \ \ \ System.out.println(e.toString());\r\n\ \ \ \ \ \ \ \ \ \ \ e.printStackTrace();\r\n\t\ \ \ }\r\n}
 comment1.params=e
 comment1.target=void\ windowClosing(java.awt.event.WindowEvent)
 comment2.params=e
 comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
-numComments=3
+comment3.params=e
+comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
+numComments=4
