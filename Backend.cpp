@@ -126,16 +126,46 @@ void loadSongs(){
 // returns iterator of song if it exists in database
 map<string,songData>::iterator getSong(string searchName){ 	/*** finding a string using map is O(mlogn)  where m is string length, n is # of elements in map***/
 
-	cout<< "\nSearching for: " << searchName <<endl;
+	//cout<< "\nSearching for: " << searchName <<endl;
 
 	map<string,songData>::iterator it;
 	it = songList.find(searchName);		// Search for song in database 
-	
+	/*
 	if (it != songList.end()){			// if song exists in database
     	cout << "SONG NAME: " << it->first << "     SONG ID: " << it->second.songID << endl;
-    }
+    }*/
 	return it;
 
+}
+
+// returns song popularity
+int updateSongPopularity(string songName){
+
+	// first obtain pointer to song if it exists
+	map<string,songData>::iterator songSearch = getSong(songName);
+
+	int songPopularity = 0;
+	string tempSong;
+
+	if(songSearch != songList.end()){ 	// song exists in database
+
+		// search playlist database for playlists that contains song
+		for( unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){ /*** O(nm) where n is # of elements in playlistDB, m is length of playlist name ***/
+
+			stringstream ss(it -> first);
+			while(getline(ss,tempSong,' ')){					// get playlist songs from input
+				if(tempSong == songSearch -> second.songID){	// if the playlist contains the song
+					songPopularity += it -> second; 			// update song popularity based on sum of playlist popularity
+					break;
+				}
+			}
+		}
+
+		songSearch -> second.popularity = songPopularity;
+
+	}
+
+	return songPopularity;
 }
 
 // returns playlists that contain songs
@@ -146,28 +176,34 @@ void getSongPlaylist(string searchName){
 
 	if(songSearch != songList.end()){ 	// song exists in database
 
-		map<int,string> songPlaylists;	// list of playlists that contains the specific song
+		multimap<int,string> songPlaylists;	// list of playlists that contains the specific song
 		int songPopularity = 0;
+		string tempSong;
 
 		// search playlist database for playlists that contains song
 		for( unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){ /*** O(nm) where n is # of elements in playlistDB, m is length of playlist name ***/
 
-			// if the playlist contains the song
-			if(it-> first.find( songSearch -> second.songID) != string::npos){ 
-				songPlaylists[it -> second] = it -> first;	// add playlist to songPlaylists sorted automatically by popularity
-				songPopularity++; 							// increment song popularity based on how many playlists its in
+			stringstream ss(it -> first);
+			while(getline(ss,tempSong,' ')){					// get playlist songs from input
+				if(tempSong == songSearch -> second.songID){
+					songPlaylists.insert( std::pair<int,string>(it -> second, it -> first) );	// add playlist to songPlaylists sorted automatically by popularity
+					songPopularity += it -> second; 			// update song popularity based on sum of playlist popularity
+					break;
+				}
 			}
+
 		}
 
 		songSearch -> second.popularity = songPopularity;	// update song popularity
 
 		// list top 8 playlists
 		cout<<"\nTop 8 Playlists: "<<endl;
-		map<int, string>:: iterator it = songPlaylists.end();
+		multimap<int, string>:: iterator it = songPlaylists.end();
 		for( int count = 0; count < 8 && it != songPlaylists.begin() ; count++){ /*** O(n) where n is 8 ***/
 			it--;
 			cout<< it -> second << ": " << it -> first <<endl;
 		}
+
 
 	}
 	else cout<<"Song does not exist in database"<<endl;
@@ -232,12 +268,12 @@ void addPlaylist(string playlistInput){
 	removeLeastPopular();
 }
 
-void importPlaylists(string filename){
+bool importPlaylists(string filename){
 	
 	ifstream file;	// open file with playlists
 	file.open(filename);
 
-	if( file.fail() ) throw "Error in opening file";	// if file did not open sucessfully, throw exception
+	if( file.fail() ) return 0;	// if file did not open sucessfully, return 0
 
 	// finds playlists the song is in
 	string playlistData;/*
@@ -251,6 +287,7 @@ void importPlaylists(string filename){
 	}
 
 	file.close();
+	return 1;
 }
 
 // lists top 8 most popular playlists
@@ -272,6 +309,7 @@ int main(){
 		loadSongs();
 
 		string userInput;
+		importPlaylists("Datasets/all_playlists.txt");
 
 		/*************************************/
 		// generating test playlists
@@ -295,7 +333,7 @@ int main(){
 			popularityDB.insert( std::pair<int,string>(it->second, it->first) );
 		}
 	*/
-		/*************************************/
+		/************************************
 
 		// testing importing playlist
 		cout << "\nEnter playlist file: ";
@@ -309,6 +347,10 @@ int main(){
 		cout << "\nEnter Song to Search: ";
 		getline(std::cin,userInput);
 		getSongPlaylist(userInput);
+
+		// testing song popularity
+		cout<< userInput << " Popularity: " <<updateSongPopularity(userInput) <<endl;
+
 
 		/*************************************/
 
