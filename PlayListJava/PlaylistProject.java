@@ -6,6 +6,9 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.File;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.FilenameFilter;
+
 
 public class PlaylistProject{
     //going to the backend
@@ -27,8 +30,7 @@ public class PlaylistProject{
         }
        return dataList;
    }
-    
-    
+        
    public static void main(String[] args) {
         
         Color aColor = new Color(0x0DCCD6);
@@ -295,7 +297,7 @@ public class PlaylistProject{
             }
         });
         frame.add(splitPane);
-        frame.setSize(700, 700);
+        frame.setSize(800, 800);
         frame.setVisible(true);
         
         
@@ -361,6 +363,8 @@ public class PlaylistProject{
             {
                 JFileChooser fc = new JFileChooser();   
                 fc.setCurrentDirectory(new File(System.getProperty("user.home")));
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+                fc.setFileFilter(filter);
                 int returnVal = fc.showOpenDialog(frame);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     // user selects a file
