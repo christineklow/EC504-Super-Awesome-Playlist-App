@@ -39,13 +39,13 @@ public class PlaylistProject{
         JPanel TitlePanel = new JPanel(new GridBagLayout());
         GridBagConstraints cTitle = new GridBagConstraints();
         
-        JPanel PlayListPanel = new JPanel(new GridBagLayout());
+        final JPanel PlayListPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        JPanel SearchPanel = new JPanel(new GridBagLayout());
+        final JPanel SearchPanel = new JPanel(new GridBagLayout());
         GridBagConstraints cSearch = new GridBagConstraints();
         
-        JPanel PopularPanel = new JPanel(new GridBagLayout());
+        final JPanel PopularPanel = new JPanel(new GridBagLayout());
         GridBagConstraints cPop = new GridBagConstraints();
         
         
@@ -69,7 +69,7 @@ public class PlaylistProject{
         
         //Radio Buttons
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton y = new JRadioButton("Text File");
+        final JRadioButton y = new JRadioButton("Text File");
         GridBagConstraints y_c = new GridBagConstraints();
         y.setBackground(aColor);
         y.setForeground(Color.WHITE);
@@ -79,7 +79,7 @@ public class PlaylistProject{
         y_c.gridy = 1;
         y_c.insets = new Insets(0, 0, 30, 0);
         PlayListPanel.add(y, y_c);
-        JRadioButton n = new JRadioButton("Manual Input");
+        final JRadioButton n = new JRadioButton("Manual Input");
         n.setFont(new Font("Monospaced", Font.BOLD, 22));
         n.setBackground(aColor);
         n.setForeground(Color.WHITE);
@@ -92,7 +92,7 @@ public class PlaylistProject{
         
         
         //empty text field
-        JTextField t1 = new JTextField(20);
+        final JTextField t1 = new JTextField(20);
         t1.setFont(new Font("Monospaced", Font.PLAIN, 16));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 3;
@@ -103,7 +103,7 @@ public class PlaylistProject{
         PlayListPanel.add(t1, c);
         
         //browse button
-        JButton browseButton = new JButton("Browse");
+        final JButton browseButton = new JButton("Browse");
         browseButton.setFont(new Font("Lucida", Font.PLAIN, 14));
         
         
@@ -117,7 +117,7 @@ public class PlaylistProject{
         c.gridy = 3;
         PlayListPanel.add(startButton, c);
         
-        JLabel playlistLabel = new JLabel(" ");
+        final JLabel playlistLabel = new JLabel(" ");
         playlistLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
         c.insets = new Insets(0,0,0,0);
         c.gridwidth = 1;
@@ -209,7 +209,7 @@ public class PlaylistProject{
         SearchPanel.add(esonglabel, cSearch);
         
         //empty text field
-        JTextField t2 = new JTextField(20);
+        final JTextField t2 = new JTextField(20);
         t2.setFont(new Font("Monospaced", Font.PLAIN, 16));
         cSearch.fill = GridBagConstraints.HORIZONTAL;
         cSearch.gridwidth = 3;
@@ -220,13 +220,13 @@ public class PlaylistProject{
         SearchPanel.add(t2, cSearch);
         
         
-        DefaultListModel listModel = new DefaultListModel();
+        final DefaultListModel listModel = new DefaultListModel();
         //initialize should be blank
         listModel.addElement("Love Hurts");
         listModel.addElement("Love Letter");
         listModel.addElement("Love Song");
         listModel.addElement("Love Me Do");
-        JList list = new JList(listModel);
+        final JList list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setFont(new Font("Monospaced", Font.PLAIN, 16));
         list.setSelectedIndex(0);
@@ -254,7 +254,7 @@ public class PlaylistProject{
         SearchPanel.add(submitButton, cSearch);
         
         //search Results
-        JLabel searchLabel = new JLabel(" ");
+        final JLabel searchLabel = new JLabel(" ");
         searchLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
         cSearch.insets = new Insets(50,0,0,0);
         cSearch.gridwidth = 1;
@@ -289,7 +289,7 @@ public class PlaylistProject{
         splitPane.setEnabled(false);
         
         //frame to encapsulate panel and pack components in
-        JFrame frame = new JFrame("PlayList Project");
+        final JFrame frame = new JFrame("PlayList Project");
         frame.addWindowListener(new WindowAdapter() 
         {
             public void windowClosing(WindowEvent e) {
