@@ -34,7 +34,7 @@ public class PlaylistProject{
    }
 
    public static void main(String[] args) {
-
+        ArrayList<String> start = executeCommand("s", "");
         Color aColor = new Color(0x0DCCD6);
 
         //creating a panel to combine items
@@ -243,7 +243,7 @@ public class PlaylistProject{
 
 
         final DefaultListModel<String> listModel = new DefaultListModel<String>();
-        //initialize should be blank
+        //initial should be blank
 
         final JList<String> list = new JList<String>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -398,6 +398,23 @@ public class PlaylistProject{
                     //add most popular song or did you mean?
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
+                    final DefaultListModel<String> searchResults = new DefaultListModel<String>();
+                    //initial should be blank
+
+                    final JList<String> resultsList = new JList<String>(listModel);
+                    resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    resultsList.setFont(new Font("Monospaced", Font.PLAIN, 16));
+                    resultsList.setSelectedIndex(0);
+                    resultsList.setVisibleRowCount(0);
+                    JScrollPane resultScrollPane = new JScrollPane(list);
+                    resultScrollPane.setViewportView(list);
+                    cSearch.gridwidth = 3;
+                    cSearch.gridheight = 4;
+                    cSearch.weightx = 0.5;
+                    cSearch.insets = new Insets(0,40,30,40);
+                    cSearch.gridx = 1;
+                    cSearch.gridy = 9;
+                    SearchPanel.add(listScrollPane, cSearch);
                 }
                 else{
                     searchLabel.setText("Input A Valid Song!");
@@ -429,7 +446,7 @@ public class PlaylistProject{
         });
 
 
-        Timer timer = new Timer(75, new ActionListener() {
+        Timer timer = new Timer(100, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //change and make boxes visible here
                 String textfield2 = t2.getText();
