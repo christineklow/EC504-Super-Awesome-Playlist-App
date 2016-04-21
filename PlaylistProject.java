@@ -12,13 +12,11 @@ import java.io.FilenameFilter;
 
 public class PlaylistProject{
     //going to the backend
-   public ArrayList executeCommand(String command, ArrayList parameters){
+   public static ArrayList<String> executeCommand(String command, String parameters){
        String s;
-       ArrayList dataList = new ArrayList();
-       command = command + "./a.out";
-       for(int i = 0; i < parameters.size(); i = i+1){
-         command = command + parameters.get(i);
-       }
+       ArrayList<String> dataList = new ArrayList<String>();
+       command = "./a.out " + command + " " + parameters;
+
        try {
            Runtime rt = Runtime.getRuntime();
            Process pr = rt.exec(command);
@@ -34,7 +32,7 @@ public class PlaylistProject{
         }
        return dataList;
    }
-   @SuppressWarnings("unchecked")
+
    public static void main(String[] args) {
 
         Color aColor = new Color(0x0DCCD6);
@@ -142,65 +140,85 @@ public class PlaylistProject{
 
         //enter command here to get the top eight playlists
         //replace word "playlist"
+        ArrayList<String> topSongs = executeCommand("l", "");
+        JLabel playlist1 = new JLabel();
+        JLabel playlist2 = new JLabel();
+        JLabel playlist3 = new JLabel();
+        JLabel playlist4 = new JLabel();
+        JLabel playlist5 = new JLabel();
+        JLabel playlist6 = new JLabel();
+        JLabel playlist7 = new JLabel();
+        JLabel playlist8 = new JLabel();
+        if (topSongs.size() >= 1){
+          playlist8.setText(topSongs.get(7));
+          playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist1.setForeground(Color.WHITE);
+          cPop.insets = new Insets(0,0,0,0);
+          cPop.gridx = 0;
+          cPop.gridy = 1;
+          PopularPanel.add(playlist1, cPop);
+        }
 
+        if (topSongs.size() >= 2){
+          playlist8.setText(topSongs.get(7));
+          playlist2.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist2.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 2;
+          PopularPanel.add(playlist2, cPop);
+        }
 
-        JLabel playlist1 = new JLabel("playlist");
-        playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist1.setForeground(Color.WHITE);
-        cPop.insets = new Insets(0,0,0,0);
-        cPop.gridx = 0;
-        cPop.gridy = 1;
-        PopularPanel.add(playlist1, cPop);
+        if (topSongs.size() >= 3){
+          playlist8.setText(topSongs.get(7));
+          playlist3.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist3.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 3;
+          PopularPanel.add(playlist3, cPop);
+        }
 
-        JLabel playlist2 = new JLabel("playlist");
-        playlist2.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist2.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 2;
-        PopularPanel.add(playlist2, cPop);
+        if (topSongs.size() >= 4){
+          playlist8.setText(topSongs.get(7));
+          playlist4.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist4.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 4;
+          PopularPanel.add(playlist4, cPop);
+        }
 
-        JLabel playlist3 = new JLabel("playlist");
-        playlist3.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist3.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 3;
-        PopularPanel.add(playlist3, cPop);
+        if (topSongs.size() >= 5){
+          playlist8.setText(topSongs.get(7));
+          playlist5.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist5.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 5;
+          PopularPanel.add(playlist5, cPop);
+        }
+        if (topSongs.size() >= 6){
+          playlist8.setText(topSongs.get(7));
+          playlist6.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist6.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 6;
+          PopularPanel.add(playlist6, cPop);
+        }
 
-        JLabel playlist4 = new JLabel("playlist");
-        playlist4.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist4.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 4;
-        PopularPanel.add(playlist4, cPop);
-
-        JLabel playlist5 = new JLabel("playlist");
-        playlist5.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist5.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 5;
-        PopularPanel.add(playlist5, cPop);
-
-        JLabel playlist6 = new JLabel("playlist");
-        playlist6.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist6.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 6;
-        PopularPanel.add(playlist6, cPop);
-
-        JLabel playlist7 = new JLabel("playlist");
-        playlist7.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist7.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 7;
-        PopularPanel.add(playlist7, cPop);
-
-        JLabel playlist8 = new JLabel("playlist");
-        playlist8.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist8.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 8;
-        PopularPanel.add(playlist8, cPop);
-
+        if (topSongs.size() >= 7){
+          playlist8.setText(topSongs.get(7));
+          playlist7.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist7.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 7;
+          PopularPanel.add(playlist7, cPop);
+      }
+        if (topSongs.size() >= 8){
+          playlist8.setText(topSongs.get(7));
+          playlist8.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist8.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 8;
+          PopularPanel.add(playlist8, cPop);
+        }
         //search song tab:
         JLabel esonglabel = new JLabel(" Enter Song");
         esonglabel.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -226,15 +244,12 @@ public class PlaylistProject{
 
         final DefaultListModel<String> listModel = new DefaultListModel<String>();
         //initialize should be blank
-        listModel.addElement("Love Hurts");
-        listModel.addElement("Love Letter");
-        listModel.addElement("Love Song");
-        listModel.addElement("Love Me Do");
+
         final JList<String> list = new JList<String>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setFont(new Font("Monospaced", Font.PLAIN, 16));
         list.setSelectedIndex(0);
-        list.setVisibleRowCount(4);
+        list.setVisibleRowCount(0);
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setViewportView(list);
         cSearch.gridwidth = 3;
@@ -333,7 +348,33 @@ public class PlaylistProject{
                 else{
                     playlistLabel.setText("Choose A Method!");
                 }
-                //frame.pack();
+                //updating the top 8 playlists
+                ArrayList<String> topSongs = executeCommand("l", "");
+
+                if (topSongs.size() >= 1){
+                  playlist1.setText(topSongs.get(0));
+                }
+                if (topSongs.size() >= 2){
+                  playlist2.setText(topSongs.get(1));
+                }
+                if (topSongs.size() >= 3){
+                  playlist3.setText(topSongs.get(2));
+                }
+                if (topSongs.size() >= 4){
+                  playlist4.setText(topSongs.get(3));
+                }
+                if (topSongs.size() >= 5){
+                  playlist5.setText(topSongs.get(4));
+                }
+                if (topSongs.size() >= 6){
+                  playlist6.setText(topSongs.get(5));
+                }
+                if (topSongs.size() >= 7){
+                  playlist7.setText(topSongs.get(6));
+                }
+                if (topSongs.size() >= 8){
+                  playlist8.setText(topSongs.get(7));
+                }
                 frame.validate();
             }
         });
