@@ -5,27 +5,26 @@
 #include <sstream>
 #include <stdio.h>
 
-
 using namespace std;
 
 int main( int argc, char *argv[] )
 {
   string argString = str(argv);
-  argString.erase(argString.begin(), argString.begin()+8)   #stripping out arg[0]
+  argString.erase(argString.begin(), argString.begin()+8)   //stripping out arg[0]
   interpretCommand(argString);
   return;
 }
 
 void interpretCommand(string commandString)
 {
-  istringstream iss(commandString);
+  istringstream iss(commandString); //turning string into stringstream for easy space delimiting
   char codeParam;
-  if (codeParam == 's')
+  if (codeParam == 's')             //if start code
   {
-    loadSongs();
+    loadSongs();                    //load songs for first time
     return;
   }
-  iss >> codeParam;
+  iss >> codeParam;                 //codeParam is the first space delimited character of commandString
   loadPlaylistData();
   commandString.erase(commandString.begin(), commandString.begin()+2)
   switch(codeParam)
