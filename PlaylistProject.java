@@ -150,7 +150,6 @@ public class PlaylistProject{
         JLabel playlist6 = new JLabel();
         JLabel playlist7 = new JLabel();
         JLabel playlist8 = new JLabel();
-        playlist1.setText("gfjh;");
         if (topSongs.size() >= 1){
           playlist1.setText(topSongs.get(0));
           playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -277,7 +276,7 @@ public class PlaylistProject{
         SearchPanel.add(submitButton, cSearch);
 
         //search Results
-        final JLabel searchLabel = new JLabel(" ");
+        final JLabel searchLabel = new JLabel("");
         searchLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
         cSearch.insets = new Insets(50,0,0,0);
         cSearch.gridwidth = 1;
@@ -285,6 +284,7 @@ public class PlaylistProject{
         cSearch.gridx = 1;
         cSearch.gridy = 8;
         SearchPanel.add(searchLabel, cSearch);
+
 
 
         PlayListPanel.setBackground(aColor);
@@ -402,11 +402,15 @@ public class PlaylistProject{
                 //search Results
                 String textfield2 = t2.getText();
                 if (textfield2.length() != 0){
-                    searchLabel.setText("Search Results");
+                    String searchRes = "<html>Search Results:";
                     ArrayList<String> songResults = executeCommand("p", textfield2);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
-
+                    for (int i = 0; i < songResults.size(); i = i+1){
+                      searchRes = searchRes+ "<br>"+songResults.get(i);
+                    }
+                    searchRes = searchRes + "</html>";
+                    searchLabel.setText(searchRes);
                 }
                 else{
                     searchLabel.setText("Input A Valid Song!");
