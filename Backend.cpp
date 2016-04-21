@@ -99,7 +99,7 @@ void findSongPrefixes(string prefix) {
     string songMatch;
     multimap<int,string> songsWithPrefix;	// list of songs that has the prefix sorted by popularity 
 
-    if( it != songList.end() ){ 			// if there is a song that starts with the prefix
+    if( it != songList.end() ){ 			//if there is a song that starts with the prefix
 	    do{
 	        songMatch = it->first;
 	        if (songMatch.compare(0, prefixLength, prefix) == 0){ 			// check to see it if it a prefix
@@ -120,7 +120,7 @@ void findSongPrefixes(string prefix) {
 }
 
 // returns playlists that contain songs
-bool getSongPlaylist(string searchName){
+void getSongPlaylist(string searchName){
 
 	// first obtain song id number if it exists
 	map<string,songData>::iterator songSearch = getSong(searchName);
@@ -154,9 +154,9 @@ bool getSongPlaylist(string searchName){
 			cout<< it -> second <<endl;
 		}
 
-		return 1; // Song exists and listed top playlists correctly
+
 	}
-	else return 0; // Song does not exist in database 
+	else cout<<"Song does not exist in database"<<endl;
 }
 
 // function removes least popular playlist from the database if there are more than 1024 playlists
@@ -227,7 +227,8 @@ int importPlaylists(string filename){
 
 	if( file.fail() ) return 0;	// if file did not open sucessfully, return 0
 
-	string playlistData; // finds playlists the song is in
+	// finds playlists the song is in
+	string playlistData;
 
 	int count = 0;
 
