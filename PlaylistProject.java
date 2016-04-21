@@ -104,7 +104,7 @@ public class PlaylistProject{
         c.gridwidth = 2;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 2;
         c.insets = new Insets(0,40,5,40);
         PlayListPanel.add(t1, c);
 
