@@ -415,8 +415,6 @@ int main( int argc, char *argv[] )	// strings must be in form: code "user input"
 	    	userInput += "\t" + string(argv[i]); 	// ( i.e. m "1 2 3 4" 100)
 	 	}
 
-	 	cout<< userInput<<endl;
-
 		interpretCommand(code, userInput);
 	}
 
