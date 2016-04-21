@@ -358,7 +358,7 @@ public class PlaylistProject{
                         playlistLabel.setText("Input A Valid Playlist!");
                     else{
                         //no error for manual
-                        String toBackEnd = "\""+textfield1+"\"";
+                        String toBackEnd = textfield1;
                         ArrayList<String> error = executeCommand("m", toBackEnd);
                         t1.setText("");
                         playlistLabel.setText("Playlist Added!");

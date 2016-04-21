@@ -408,7 +408,14 @@ int main( int argc, char *argv[] )	// strings must be in form: code "user input"
 	     	userInput += string(argv[i]);
 		}
 
-	    if(code == 'm') userInput += "\t" + string(argv[3]); 	// ( i.e. m "1 2 3 4" 100)
+	    if(code == 'm'){
+	    	int i = 2;
+	    	for(; i < argc - 1; i++)
+	     		userInput += string(argv[i]) + " "; // takes input string
+	    	userInput += "\t" + string(argv[i]); 	// ( i.e. m "1 2 3 4" 100)
+	 	}
+
+	 	cout<< userInput<<endl;
 
 		interpretCommand(code, userInput);
 	}
