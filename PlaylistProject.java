@@ -12,9 +12,12 @@ import java.io.FilenameFilter;
 
 public class PlaylistProject{
     //going to the backend
-   public ArrayList executeCommand(String command){
+   public ArrayList executeCommand(String command, ArrayList parameters){
        String s;
        ArrayList dataList = new ArrayList();
+       for(int i = 0; i < parameters.size(), i++){
+         command = command + parameters[i];
+       }
        try {
            Runtime rt = Runtime.getRuntime();
            Process pr = rt.exec(command);
@@ -30,32 +33,32 @@ public class PlaylistProject{
         }
        return dataList;
    }
-        
+
    public static void main(String[] args) {
-        
+
         Color aColor = new Color(0x0DCCD6);
-        
+
         //creating a panel to combine items
         JPanel TitlePanel = new JPanel(new GridBagLayout());
         GridBagConstraints cTitle = new GridBagConstraints();
-        
+
         final JPanel PlayListPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        
+
         final JPanel SearchPanel = new JPanel(new GridBagLayout());
         GridBagConstraints cSearch = new GridBagConstraints();
-        
+
         final JPanel PopularPanel = new JPanel(new GridBagLayout());
         GridBagConstraints cPop = new GridBagConstraints();
-        
-        
+
+
         //label
         JLabel jlbempty = new JLabel("\u266B Awesome Playlist App \u266B");
         jlbempty.setForeground(Color.WHITE);
         jlbempty.setFont(new Font("Monospaced", Font.BOLD, 38));
         TitlePanel.add(jlbempty, cTitle);
-        
-        
+
+
         //enter playlist tab
         JLabel label = new JLabel("Enter Playlist");
         label.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -65,8 +68,8 @@ public class PlaylistProject{
         enter_c.gridy = 1;
         enter_c.insets = new Insets(0, 5, 30, 0);
         PlayListPanel.add(label, enter_c);
-        
-        
+
+
         //Radio Buttons
         ButtonGroup buttonGroup = new ButtonGroup();
         final JRadioButton y = new JRadioButton("Text File");
@@ -89,8 +92,8 @@ public class PlaylistProject{
         n_c.gridy = 1;
         n_c.insets = new Insets(0, 0, 30, 5);
         PlayListPanel.add(n, n_c);
-        
-        
+
+
         //empty text field
         final JTextField t1 = new JTextField(20);
         t1.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -101,12 +104,12 @@ public class PlaylistProject{
         c.gridy = 2;
         c.insets = new Insets(0,40,5,40);
         PlayListPanel.add(t1, c);
-        
+
         //browse button
         final JButton browseButton = new JButton("Browse");
         browseButton.setFont(new Font("Lucida", Font.PLAIN, 14));
-        
-        
+
+
         //submit button
         JButton startButton = new JButton("Submit");
         startButton.setFont(new Font("Lucida", Font.PLAIN, 18));
@@ -116,7 +119,7 @@ public class PlaylistProject{
         c.gridx = 1;
         c.gridy = 3;
         PlayListPanel.add(startButton, c);
-        
+
         final JLabel playlistLabel = new JLabel(" ");
         playlistLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
         c.insets = new Insets(0,0,0,0);
@@ -125,8 +128,8 @@ public class PlaylistProject{
         c.gridx = 1;
         c.gridy = 4;
         PlayListPanel.add(playlistLabel, c);
-                
-        
+
+
         //popular playlist tab
         JLabel titlePop = new JLabel("Top Eight Playlists");
         titlePop.setFont(new Font("Monospaced", Font.BOLD, 30));
@@ -135,11 +138,11 @@ public class PlaylistProject{
         cPop.gridy = 0;
         cPop.insets = new Insets(0,0,30,0);
         PopularPanel.add(titlePop, cPop);
-        
+
         //enter command here to get the top eight playlists
         //replace word "playlist"
-        
-        
+
+
         JLabel playlist1 = new JLabel("playlist");
         playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist1.setForeground(Color.WHITE);
@@ -147,56 +150,56 @@ public class PlaylistProject{
         cPop.gridx = 0;
         cPop.gridy = 1;
         PopularPanel.add(playlist1, cPop);
-        
+
         JLabel playlist2 = new JLabel("playlist");
         playlist2.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist2.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 2;
         PopularPanel.add(playlist2, cPop);
-        
+
         JLabel playlist3 = new JLabel("playlist");
         playlist3.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist3.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 3;
         PopularPanel.add(playlist3, cPop);
-        
+
         JLabel playlist4 = new JLabel("playlist");
         playlist4.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist4.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 4;
         PopularPanel.add(playlist4, cPop);
-        
+
         JLabel playlist5 = new JLabel("playlist");
         playlist5.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist5.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 5;
         PopularPanel.add(playlist5, cPop);
-        
+
         JLabel playlist6 = new JLabel("playlist");
         playlist6.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist6.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 6;
         PopularPanel.add(playlist6, cPop);
-        
+
         JLabel playlist7 = new JLabel("playlist");
         playlist7.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist7.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 7;
         PopularPanel.add(playlist7, cPop);
-        
+
         JLabel playlist8 = new JLabel("playlist");
         playlist8.setFont(new Font("Monospaced", Font.BOLD, 22));
         playlist8.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 8;
         PopularPanel.add(playlist8, cPop);
-        
+
         //search song tab:
         JLabel esonglabel = new JLabel(" Enter Song");
         esonglabel.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -207,7 +210,7 @@ public class PlaylistProject{
         cSearch.gridy = 0;
         cSearch.insets = new Insets(0, 0, 30, 0);
         SearchPanel.add(esonglabel, cSearch);
-        
+
         //empty text field
         final JTextField t2 = new JTextField(20);
         t2.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -218,8 +221,8 @@ public class PlaylistProject{
         cSearch.gridx = 0;
         cSearch.gridy = 1;
         SearchPanel.add(t2, cSearch);
-        
-        
+
+
         final DefaultListModel listModel = new DefaultListModel();
         //initialize should be blank
         listModel.addElement("Love Hurts");
@@ -240,8 +243,8 @@ public class PlaylistProject{
         cSearch.gridx = 0;
         cSearch.gridy = 2;
         SearchPanel.add(listScrollPane, cSearch);
-        
-        
+
+
         //submit button
         JButton submitButton = new JButton("Submit");
         submitButton.setFont(new Font("Lucida", Font.PLAIN, 18));
@@ -252,7 +255,7 @@ public class PlaylistProject{
         cSearch.gridx = 1;
         cSearch.gridy = 7;
         SearchPanel.add(submitButton, cSearch);
-        
+
         //search Results
         final JLabel searchLabel = new JLabel(" ");
         searchLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
@@ -262,7 +265,7 @@ public class PlaylistProject{
         cSearch.gridx = 1;
         cSearch.gridy = 8;
         SearchPanel.add(searchLabel, cSearch);
-      
+
         PlayListPanel.setBackground(aColor);
         PopularPanel.setBackground(aColor);
         TitlePanel.setBackground(aColor);
@@ -270,27 +273,27 @@ public class PlaylistProject{
         PlayListPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
         SearchPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
         PopularPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
-        
+
         JTabbedPane categories = new JTabbedPane();
         categories.setFont(new Font("Monospaced", Font.PLAIN, 20) );
         categories.addTab("Enter Playlist", PlayListPanel);
         categories.addTab("Top Playlists", PopularPanel);
         categories.addTab("Search Song", SearchPanel);
-        
+
         categories.setForeground(aColor);
         categories.setBackground(Color.WHITE);
-        
-        
+
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.setLeftComponent(TitlePanel);
         splitPane.setRightComponent(categories);
         splitPane.setDividerLocation(200);
         splitPane.setDividerSize(1);
         splitPane.setEnabled(false);
-        
+
         //frame to encapsulate panel and pack components in
         final JFrame frame = new JFrame("PlayList Project");
-        frame.addWindowListener(new WindowAdapter() 
+        frame.addWindowListener(new WindowAdapter()
         {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
@@ -299,9 +302,9 @@ public class PlaylistProject{
         frame.add(splitPane);
         frame.setSize(800, 800);
         frame.setVisible(true);
-        
-        
-        startButton.addActionListener(new ActionListener() 
+
+
+        startButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
@@ -313,7 +316,7 @@ public class PlaylistProject{
                         t1.setText(""); //check if this is okay
                         //call on input playlist functions here!
                         playlistLabel.setText("Playlist File Added!");
-                        //update top playlist 
+                        //update top playlist
                     }
                 }
                 else if (n.isSelected()){
@@ -333,14 +336,14 @@ public class PlaylistProject{
                 frame.validate();
             }
         });
-        
+
         submitButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 //search Results
                 String textfield2 = t2.getText();
-                if (textfield2.length() != 0){                  
+                if (textfield2.length() != 0){
                     searchLabel.setText("Search Results");
                     //add most popular song or did you mean?
                     list.setVisibleRowCount(0);
@@ -354,14 +357,14 @@ public class PlaylistProject{
                 t2.setText("");
                 frame.revalidate();
             }
-        
+
         });
-        
+
         browseButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                JFileChooser fc = new JFileChooser();   
+                JFileChooser fc = new JFileChooser();
                 fc.setCurrentDirectory(new File(System.getProperty("user.home")));
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
                 fc.setFileFilter(filter);
@@ -372,17 +375,17 @@ public class PlaylistProject{
                     t1.setText(selectedFile.getAbsolutePath());
                 }
             }
-        
+
         });
-        
-        
+
+
         Timer timer = new Timer(75, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //change and make boxes visible here
                 String textfield2 = t2.getText();
                 if(textfield2.length() != 0){
                     listModel.removeAllElements();
-                    //add elements from command line call here                       
+                    //add elements from command line call here
                     //set visibility to the necessary amount here
                     list.setVisibleRowCount(3);
                     listModel.addElement("hello");
@@ -394,8 +397,8 @@ public class PlaylistProject{
             }
         });
         timer.start();
-        
-        
+
+
         //to select the proper autocomplete option
         MouseListener mouseListener = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -404,8 +407,8 @@ public class PlaylistProject{
             }
         };
         list.addMouseListener(mouseListener);
-        
-        //radio button listeners for browsing files and formatting 
+
+        //radio button listeners for browsing files and formatting
         y.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GridBagConstraints cBrowse = new GridBagConstraints();
@@ -415,8 +418,8 @@ public class PlaylistProject{
                 cBrowse.gridx = 4;
                 cBrowse.gridy = 2;
                 PlayListPanel.add(browseButton, cBrowse);
-                
-                
+
+
                 //move the label over, since it gets cut off with the browse button
                 PlayListPanel.remove(playlistLabel);
                 GridBagConstraints ctemp = new GridBagConstraints();
@@ -426,8 +429,8 @@ public class PlaylistProject{
                 ctemp.gridx = 1;
                 ctemp.gridy = 4;
                 PlayListPanel.add(playlistLabel, ctemp);
-                
-                frame.repaint();                
+
+                frame.repaint();
                 frame.revalidate();
             }
         });
