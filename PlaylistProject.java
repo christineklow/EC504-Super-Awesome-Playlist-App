@@ -12,6 +12,7 @@ import java.io.FilenameFilter;
 
 public class PlaylistProject{
     //going to the backend
+   public static String currentInput;
    public static ArrayList<String> executeCommand(String command, String parameters){
        String s;
        ArrayList<String> dataList = new ArrayList<String>();
@@ -357,7 +358,8 @@ public class PlaylistProject{
                         playlistLabel.setText("Input A Valid Playlist!");
                     else{
                         //no error for manual
-                        ArrayList<String> error = executeCommand("m", t1.getText());
+                        String toBackEnd = "\""+textfield1+"\"";
+                        ArrayList<String> error = executeCommand("m", toBackEnd);
                         t1.setText("");
                         playlistLabel.setText("Playlist Added!");
                     }
@@ -407,7 +409,8 @@ public class PlaylistProject{
                 String textfield2 = t2.getText();
                 if (textfield2.length() != 0){
                     String searchRes = "<html>Search Results:";
-                    ArrayList<String> songResults = executeCommand("p", textfield2);
+                    String toBackEnd = "\""+textfield2+"\"";
+                    ArrayList<String> songResults = executeCommand("p", toBackEnd);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
                     if (songResults.size() == 0){
@@ -453,16 +456,18 @@ public class PlaylistProject{
             public void actionPerformed(ActionEvent evt) {
                 //change and make boxes visible here
                 String textfield2 = t2.getText();
-                if(textfield2.length() != 0){
+                if(textfield2.length() != 0 && textfield2 != currentInput){
                     listModel.removeAllElements();
                     //add elements from command line call here
-                    ArrayList<String> newElements = executeCommand("t", textfield2);
+                    String toBackEnd = "\""+textfield2+"\"";
+                    ArrayList<String> newElements = executeCommand("t", toBackEnd);
                     //set visibility to the necessary amount here
                     list.setVisibleRowCount(newElements.size());
                     for (int i = 0; i < newElements.size(); i = i + 1){
                       listModel.addElement(newElements.get(i));
                     }
                     frame.revalidate();
+                    currentInput = textfield2;
                 }
 
             }
