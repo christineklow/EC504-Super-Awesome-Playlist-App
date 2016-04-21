@@ -36,6 +36,7 @@ public class PlaylistProject{
    public static void main(String[] args) {
         ArrayList<String> start = executeCommand("s", "");
         Color aColor = new Color(0x0DCCD6);
+        Color bColor = new Color(0xCAE9EB);
 
         //creating a panel to combine items
         JPanel TitlePanel = new JPanel(new GridBagLayout());
@@ -141,7 +142,7 @@ public class PlaylistProject{
         //enter command here to get the top eight playlists
         //replace word "playlist"
         ArrayList<String> topSongs = executeCommand("l", "");
-        JLabel playlist1 = new JLabel();
+        JLabel playlist1 = new JLabel("hi");
         JLabel playlist2 = new JLabel();
         JLabel playlist3 = new JLabel();
         JLabel playlist4 = new JLabel();
@@ -158,7 +159,9 @@ public class PlaylistProject{
           cPop.gridy = 1;
           PopularPanel.add(playlist1, cPop);
         }
-
+        if (topSongs.size() == 0){
+          playlist1.setText("None Currently");
+        }
         if (topSongs.size() >= 2){
           playlist2.setText(topSongs.get(1));
           playlist2.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -282,6 +285,7 @@ public class PlaylistProject{
         cSearch.gridy = 8;
         SearchPanel.add(searchLabel, cSearch);
 
+
         PlayListPanel.setBackground(aColor);
         PopularPanel.setBackground(aColor);
         TitlePanel.setBackground(aColor);
@@ -358,6 +362,9 @@ public class PlaylistProject{
                 }
                 //updating the top 8 playlists
                 ArrayList<String> topSongs = executeCommand("l", "");
+                if (topSongs.size() == 0){
+                  playlist1.setText("None Currently");
+                }
 
                 if (topSongs.size() >= 1){
                   playlist1.setText(topSongs.get(0));
@@ -395,26 +402,10 @@ public class PlaylistProject{
                 String textfield2 = t2.getText();
                 if (textfield2.length() != 0){
                     searchLabel.setText("Search Results");
-                    //add most popular song or did you mean?
+                    ArrayList<String> songResults = executeCommand("p", textfield2);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
-                    final DefaultListModel<String> searchResults = new DefaultListModel<String>();
-                    //initial should be blank
 
-                    final JList<String> resultsList = new JList<String>(listModel);
-                    resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    resultsList.setFont(new Font("Monospaced", Font.PLAIN, 16));
-                    resultsList.setSelectedIndex(0);
-                    resultsList.setVisibleRowCount(0);
-                    JScrollPane resultScrollPane = new JScrollPane(list);
-                    resultScrollPane.setViewportView(list);
-                    cSearch.gridwidth = 3;
-                    cSearch.gridheight = 4;
-                    cSearch.weightx = 0.5;
-                    cSearch.insets = new Insets(0,40,30,40);
-                    cSearch.gridx = 1;
-                    cSearch.gridy = 9;
-                    SearchPanel.add(listScrollPane, cSearch);
                 }
                 else{
                     searchLabel.setText("Input A Valid Song!");
