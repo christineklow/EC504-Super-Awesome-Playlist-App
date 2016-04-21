@@ -257,6 +257,7 @@ void mostPopularPlaylist(){
 	}
 }
 
+// loads playlist database that was from the same session
 void loadPlaylistData(){
 	
 	ifstream file;	// open file with playlists
@@ -274,6 +275,7 @@ void loadPlaylistData(){
 	file.close();
 }
 
+// saves playlist database from the same session
 void savePlaylistData(){
 	
 	ofstream file;	// output playlist data
@@ -290,6 +292,7 @@ void savePlaylistData(){
 	file.close();
 }
 
+// loads song data from the same session
 void loadSongData(){
 	
 	ifstream file;	// open file with playlists
@@ -314,6 +317,7 @@ void loadSongData(){
 	file.close();
 }
 
+// saves song data from the same session
 void saveSongData(){
 	
 	ofstream file;	// open file with playlists
@@ -334,7 +338,7 @@ void saveSongData(){
 	file.close();
 }
 
-// loads status of if playlist database has been changed
+// loads status of if playlist database has been changed from the session
 void loadPlaylistStatus(){
 
 	ifstream file;	// open file with playlists
@@ -352,7 +356,7 @@ void loadPlaylistStatus(){
 	file.close();
 }
 
-// saves status of if playlist database has been changed
+// saves status of if playlist database has been changed from the session
 void savePlaylistStatus(){
 
 	ofstream file;	// open file with playlists
@@ -364,7 +368,6 @@ void savePlaylistStatus(){
 
 	file.close();
 }
-
 
 
 int main(){
