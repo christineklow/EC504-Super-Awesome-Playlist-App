@@ -15,6 +15,43 @@
 
 using namespace std;
 
+/** Goals/Requirements:
+
+	Able to fetch playlists by included song based on playlist popularity 	// DONE
+		Playlist object with attribute song list, Popularity
+
+	Able to display the most popular playlists 			// DONE
+		Use data struct with most popular on top?
+
+	Able to insert new playlist(s) (<=128 at a time, by file, or 1 at a time by UI) and least pop. playlist gets removed if playlistCount > 1024 	// DONE
+		Pop the least popular off the bottom?
+
+	Popularity of song == Sum(popularity of playlists song resides) 	// DONE
+		Have Song object, Playlist object, each with lists of the other they are linked to?
+
+	Must compute the complexity of each function
+
+	Use C++ to minimize runtime?
+**/
+
+/** IMPLEMENTATION
+	Data Structure Ideas: Binary Search Tree, map
+	string for playlist name
+	
+	class for song, playlist?
+
+	functions
+	input manual 							// DONE
+	input from text filename 
+
+	error check is actual song 				// DONE
+
+	display 8 most popular playlist 		// DONE
+	remove least popular playlist 			// DONE
+
+	given song, display most popular playlist
+**/
+
 struct songData {
         songData() : songID() {}
         songData(string newID)
@@ -22,6 +59,35 @@ struct songData {
 
         string songID;
         int popularity;
+        /*
+        multimap<int,string> playlist;
+
+        // list playlists song is in
+        void listPlaylist(){
+        	for( multimap<int,string>::iterator it = playlist.begin() ; it != playlist.end(); ++it)
+        		cout<< it -> first << " "<< it -> second << endl;
+        }
+
+        void removePlaylist(string playlistName){
+        	multimap<int,string>::iterator it = playlist.find(playlistName);
+        	if(it != playlist.end()){
+        		playlist.erase(it);		// if playlist exists in song's database, erase it
+        		popularity--;			// decrement song's popularity
+        	}
+        }
+
+        void addPlaylist(string playlistName, int playlistPopularity){
+
+        	// if playlist already exists, update playlist popularity
+        	map<string,int>::iterator it = playlist.find(playlistName);
+        	if(it != playlist.end()){
+        		it -> second += playlistPopularity;
+        	}
+        	else{	// if playlist doesn't exist, add to song's playlist database
+        		playlist[playlistName] = playlistPopularity;
+        		popularity++;	// update song popularity
+        	}
+        }*/
 };
 
 map<string,songData> songList;			// database of songs with the songID and popularity
@@ -32,6 +98,7 @@ bool playlistChange = true;				// keeps track if any changes to the playlist dat
 
 void loadSongs(){
 	// load songs from song_list.txt into datastructure songList
+	cout<<"Loading songs..." <<endl<<"..."<<endl;
 
 	ifstream file;	// open file with song list
 	file.open("Datasets/song_list.txt");
@@ -47,6 +114,11 @@ void loadSongs(){
 		getline (file,tempArtist,'\n');
 		songList[tempSong] = songData(tempID);
 	}
+/*
+	for ( map<string,songData>::iterator it= songList.begin(); it!=songList.end(); ++it)
+    cout << "SONG NAME: " << it->first << "     SONG ID: " << it->second.songID << endl;
+*/
+	cout<<"...\nSongs loaded."<<endl;
 
 	file.close(); // close file
 
@@ -55,9 +127,14 @@ void loadSongs(){
 // returns iterator of song if it exists in database
 map<string,songData>::iterator getSong(string searchName){ 	/*** finding a string using map is O(mlogn)  where m is string length, n is # of elements in map***/
 
+	//cout<< "\nSearching for: " << searchName <<endl;
+
 	map<string,songData>::iterator it;
 	it = songList.find(searchName);		// Search for song in database 
-
+	/*
+	if (it != songList.end()){			// if song exists in database
+    	cout << "SONG NAME: " << it->first << "     SONG ID: " << it->second.songID << endl;
+    }*/
 	return it;
 
 }
@@ -114,7 +191,7 @@ void findSongPrefixes(string prefix) {
 	multimap<int, string>:: iterator iter = songsWithPrefix.end();
 	for( int count = 0; count < 4 && iter != songsWithPrefix.begin() ; count++){ /*** O(n) where n is 8 ***/
 		iter--;
-		cout<< iter -> second<<endl;	// print out songs sorted by popularity
+		cout<< iter -> second<<endl;			// print out songs sorted by popularity
 	}
 }
 
@@ -147,10 +224,11 @@ void getSongPlaylist(string searchName){
 		songSearch -> second.popularity = songPopularity;	// update song popularity
 
 		// list top 8 playlists
+		cout<<"\nTop 8 Playlists: "<<endl;
 		multimap<int, string>:: iterator it = songPlaylists.end();
 		for( int count = 0; count < 8 && it != songPlaylists.begin() ; count++){ /*** O(n) where n is 8 ***/
 			it--;
-			cout<< it -> second <<endl;
+			cout<< it -> second << ": " << it -> first <<endl;
 		}
 
 
@@ -219,7 +297,7 @@ void addPlaylist(string playlistInput){
 	removeLeastPopular();
 }
 
-int importPlaylists(string filename){
+bool importPlaylists(string filename){
 	
 	ifstream file;	// open file with playlists
 	file.open(filename);
@@ -227,16 +305,14 @@ int importPlaylists(string filename){
 	if( file.fail() ) return 0;	// if file did not open sucessfully, return 0
 
 	// finds playlists the song is in
-	string playlistData;
-
-	int count = 0;
-
+	string playlistData;/*
+	getline(file,playlistData,'\n');	// get playlist from line of file
+	cout<<playlistData<<endl;
+	addPlaylist(playlistData);
+*/
 	while( !file.eof() ){ 					
 		getline(file,playlistData,'\n');					// get playlist from line of file
 		if(playlistData != "") addPlaylist(playlistData);	// add the playlist to the database if its not an empty line
-
-		count++;
-		if(count == 128) return 2; // return 2 if there are more than 128 lines
 	}
 
 	playlistChange = true;
@@ -250,9 +326,10 @@ void mostPopularPlaylist(){
 	
 	multimap<int, string>:: iterator it = popularityDB.end();	// the most popular playlists are at the end of the database
 	// list top 8 playlists
+	cout<<"\nTop 8 Playlists: "<<endl;
 	for( int count = 0; count < 8 && it != popularityDB.begin() ; count++){
 		it--;
-		cout<< it -> second <<endl;
+		cout<< it -> second << ": " << it -> first <<endl;
 	}
 }
 
@@ -267,6 +344,14 @@ int main(){
 
 		/*************************************
 
+		// testing importing playlist
+		cout << "\nEnter playlist file: ";
+		getline(std::cin,userInput);
+
+		importPlaylists(userInput);
+
+		*************************************/
+
 		// testing song searching
 		cout << "\nEnter Song to Search: ";
 		getline(std::cin,userInput);
@@ -275,20 +360,22 @@ int main(){
 		// testing song popularity
 		cout<< userInput << " Popularity: " << updateSongPopularity(userInput) <<endl;
 
-		// test finding prefixes
-		cout << "\nEnter prefix: ";
-		getline(std::cin,userInput);
-		findSongPrefixes(userInput);
+		findSongPrefixes("Whi");
+
+
+		/*************************************
 
 		// testing adding playlist and listing most popular
 		cout << "\nEnter Playlist to add: ";
 		getline(std::cin,userInput);
 		addPlaylist(userInput);
-	
-		// test listing most popular playlist
+
 		mostPopularPlaylist();
 
+
 		*************************************/
+
+		//findSongPrefixes("Whi");
 
 	}
 	catch(const char* msg){ // Error in opening file
