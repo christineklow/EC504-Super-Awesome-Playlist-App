@@ -12,6 +12,7 @@
 #include <map>
 #include <utility>
 #include <unordered_map>
+#include <stdio.h>
 
 using namespace std;
 
@@ -365,56 +366,62 @@ void savePlaylistStatus(){
 	file.close();
 }
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <vector>
-#include <sstream>
-#include <stdio.h>
 
-using namespace std;
-
-int main( int argc, char *argv[] )
+void interpretCommand(char codeParam, string commandString)
 {
-  string argString = str(argv);
-  argString.erase(argString.begin(), argString.begin()+8)   //stripping out arg[0]
-  interpretCommand(argString);
-  return;
-}
-
-void interpretCommand(string commandString)
-{
-  istringstream iss(commandString); //turning string into stringstream for easy space delimiting
-  char codeParam;
   if (codeParam == 's')             //if start code
   {
-    loadSongs();                    //load songs for first time
+    loadSongs();
+    importPlaylists("Datasets/day00.txt");                    //load songs for first time
     return;
   }
-  iss >> codeParam;                 //codeParam is the first space delimited character of commandString
   loadPlaylistData();
-  commandString.erase(commandString.begin(), commandString.begin()+2)
+  loadSongData();
+  loadPlaylistStatus();
+  commandString.erase(commandString.begin(), commandString.begin()+2);
   switch(codeParam)
   {
     case 'm' :
-      addPlaylist(commandString)
+      addPlaylist(commandString);
       break;
     case 'a' :
-      importPlaylists(commandString)
+      importPlaylists(commandString);
       break;
     case 't' :
-      findSongPrefixes(commandString)
+      findSongPrefixes(commandString);
       break;
     case 'p' :
-      getSongPlaylist(commandString)
+      getSongPlaylist(commandString);
       break;
     case 'l' :
-      mostPopularPlaylist()
+      mostPopularPlaylist();
       break;
-    default case :
+    default :
       cout << "You done fucked up, son" << endl;
   }
+  saveSongData();
+  savePlaylistData();
+  savePlaylistStatus();
+  return;
 }
+
+int main( int argc, char *argv[] )
+{
+  char code = *argv[1]; // takes code
+  cout << code <<endl;
+  string userInput; // takes input string
+  int i = 2;
+  for(; i < argc - 1; i++)
+  {
+  	std::string arg2(argv[i]);
+  	userInput += arg2 + " ";
+  }
+  std::string arg2(argv[i]);
+  userInput += arg2;
+  interpretCommand(code, userInput);
+  return 0;
+}
+
 
 /*
 //christine main
@@ -447,7 +454,6 @@ int main(){
 		//loadSongData();
 		//loadPlaylistStatus();
 
-		/*************************************
 
 		// testing song searching
 		cout << "\nEnter Song to Search: ";
@@ -470,7 +476,6 @@ int main(){
 		// test listing most popular playlist
 		mostPopularPlaylist();
 
-		*************************************/
 
 		//saveSongData();
 		//savePlaylistData();
