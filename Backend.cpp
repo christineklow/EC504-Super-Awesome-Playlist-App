@@ -30,8 +30,8 @@ unordered_map<string,int> playlistDB;	// database of playlists with the populari
 multimap<int,string> popularityDB;		// database of playlists sorted by popularity
 bool playlistChange = true;				// keeps track if any changes to the playlist database has been made
 
+// load songs from song_list.txt into datastructure songList
 void loadSongs(){
-	// load songs from song_list.txt into datastructure songList
 
 	ifstream file;	// open file with song list
 	file.open("Datasets/song_list.txt");
@@ -263,7 +263,7 @@ int main(){
 		loadSongs();
 
 		string userInput;
-		importPlaylists("Datasets/all_playlists.txt");
+		importPlaylists("Datasets/day00.txt");
 
 		/*************************************
 
