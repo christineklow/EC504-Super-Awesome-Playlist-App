@@ -96,15 +96,23 @@ public class PlaylistProject{
         n_c.insets = new Insets(0, 0, 30, 5);
         PlayListPanel.add(n, n_c);
 
+        final JLabel enter1Label = new JLabel("Enter Song:");
+        enter1Label.setFont(new Font("Monospaced", Font.BOLD, 24));
+        c.insets = new Insets(0,0,0,0);
+        c.gridwidth = 1;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 2;
+        PlayListPanel.add(enter1Label, c);
 
         //empty text field
         final JTextField t1 = new JTextField(20);
         t1.setFont(new Font("Monospaced", Font.PLAIN, 16));
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 1;
         c.insets = new Insets(0,40,5,40);
         PlayListPanel.add(t1, c);
 
@@ -456,7 +464,7 @@ public class PlaylistProject{
             public void actionPerformed(ActionEvent evt) {
                 //change and make boxes visible here
                 String textfield2 = t2.getText();
-                if(textfield2.length() != 0 && textfield2 != currentInput){
+                if(textfield2.length() != 0){
                     listModel.removeAllElements();
                     //add elements from command line call here
                     String toBackEnd = "\""+textfield2+"\"";
