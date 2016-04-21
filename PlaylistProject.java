@@ -101,7 +101,7 @@ public class PlaylistProject{
         final JTextField t1 = new JTextField(20);
         t1.setFont(new Font("Monospaced", Font.PLAIN, 16));
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 2;
+        c.gridwidth = 3;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 2;
