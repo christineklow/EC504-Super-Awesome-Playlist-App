@@ -278,6 +278,8 @@ public class PlaylistProject{
         //search Results
         final JLabel searchLabel = new JLabel("");
         searchLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
+        searchLabel.setOpaque(true);
+        searchLabel.setBackground(bColor);
         cSearch.insets = new Insets(50,0,0,0);
         cSearch.gridwidth = 1;
         cSearch.weightx = 0.5;
@@ -406,6 +408,9 @@ public class PlaylistProject{
                     ArrayList<String> songResults = executeCommand("p", textfield2);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
+                    if (songResults.size() == 0){
+                      searchRes = searchRes + "<br>No Playlists Found";
+                    }
                     for (int i = 0; i < songResults.size(); i = i+1){
                       searchRes = searchRes+ "<br>"+songResults.get(i);
                     }
