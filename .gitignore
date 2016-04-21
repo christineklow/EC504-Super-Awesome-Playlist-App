@@ -1,2 +1,4 @@
 
 PlayListJava/doc/allclasses-frame.html
+*.class
+*.out
