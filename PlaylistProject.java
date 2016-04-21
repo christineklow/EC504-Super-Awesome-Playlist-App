@@ -460,6 +460,7 @@ public class PlaylistProject{
                     listModel.removeAllElements();
                     //add elements from command line call here
                     String toBackEnd = "\""+textfield2+"\"";
+                    System.out.println(toBackEnd);
                     ArrayList<String> newElements = executeCommand("t", toBackEnd);
                     //set visibility to the necessary amount here
                     list.setVisibleRowCount(newElements.size());
