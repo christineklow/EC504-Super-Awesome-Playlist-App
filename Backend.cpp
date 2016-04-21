@@ -1,5 +1,5 @@
 
-/** 
+/**
 	Playlist App
 	Christine Low
 	Shane McCormack
@@ -57,7 +57,7 @@ void loadSongs(){
 map<string,songData>::iterator getSong(string searchName){ 	/*** finding a string using map is O(mlogn)  where m is string length, n is # of elements in map***/
 
 	map<string,songData>::iterator it;
-	it = songList.find(searchName);		// Search for song in database 
+	it = songList.find(searchName);		// Search for song in database
 
 	return it;
 
@@ -97,7 +97,7 @@ void findSongPrefixes(string prefix) {
     map<string,songData>::const_iterator it = songList.lower_bound(prefix); // looks for song that starts with prefix
     int prefixLength = prefix.size();
     string songMatch;
-    multimap<int,string> songsWithPrefix;	// list of songs that has the prefix sorted by popularity 
+    multimap<int,string> songsWithPrefix;	// list of songs that has the prefix sorted by popularity
 
     if( it != songList.end() ){ 			//if there is a song that starts with the prefix
 	    do{
@@ -179,7 +179,7 @@ void updatePlaylistPopularity(int oldPopularity, string playlistName, int newPop
 	// erase playlist with old popularity
 	iterator it = iterpair.first;
 	for (; it != iterpair.second; ++it) {
-	    if( it -> second == playlistName) { 
+	    if( it -> second == playlistName) {
 	        popularityDB.erase(it);
 	        break;
 	    }
@@ -210,7 +210,7 @@ void addPlaylist(string playlistInput){
 		it -> second = newPopularity;	// update popularity of playlist in playlistDB
 	}
 	else{	// if it does not exist yet, add it to the database
-		playlistDB[playlistSongs] = popularity; 
+		playlistDB[playlistSongs] = popularity;
 		popularityDB.insert( std::pair<int,string>(popularity, playlistSongs) );
 	}
 
@@ -221,7 +221,7 @@ void addPlaylist(string playlistInput){
 }
 
 int importPlaylists(string filename){
-	
+
 	ifstream file;	// open file with playlists
 	file.open(filename);
 
@@ -232,7 +232,7 @@ int importPlaylists(string filename){
 
 	int count = 0;
 
-	while( !file.eof() ){ 					
+	while( !file.eof() ){
 		getline(file,playlistData,'\n');					// get playlist from line of file
 		if(playlistData != "") addPlaylist(playlistData);	// add the playlist to the database if its not an empty line
 
@@ -248,7 +248,7 @@ int importPlaylists(string filename){
 
 // lists top 8 most popular playlists
 void mostPopularPlaylist(){
-	
+
 	multimap<int, string>:: iterator it = popularityDB.end();	// the most popular playlists are at the end of the database
 	// list top 8 playlists
 	for( int count = 0; count < 8 && it != popularityDB.begin() ; count++){
@@ -258,7 +258,7 @@ void mostPopularPlaylist(){
 }
 
 void loadPlaylistData(){
-	
+
 	ifstream file;	// open file with playlists
 	file.open("memory/playlistData.txt");
 
@@ -266,7 +266,7 @@ void loadPlaylistData(){
 
 	string playlistData; // finds playlists the song is in
 
-	while( !file.eof() ){ 					
+	while( !file.eof() ){
 		getline(file,playlistData,'\n');					// get playlist from line of file
 		if(playlistData != "") addPlaylist(playlistData);	// add the playlist to the database if its not an empty line
 	}
@@ -275,7 +275,7 @@ void loadPlaylistData(){
 }
 
 void savePlaylistData(){
-	
+
 	ofstream file;	// output playlist data
 	file.open("memory/playlistData.txt");
 
@@ -291,7 +291,7 @@ void savePlaylistData(){
 }
 
 void loadSongData(){
-	
+
 	ifstream file;	// open file with playlists
 	file.open("memory/songData.txt");
 
@@ -303,7 +303,7 @@ void loadSongData(){
 	string tempSong, tempID, tempPopularity;
 	int popularity;
 
-	while( !file.eof() ){ 
+	while( !file.eof() ){
 		getline (file,tempID,'\t');
 		getline (file,tempSong,'\t');
 		getline (file,tempPopularity,'\n');
@@ -315,7 +315,7 @@ void loadSongData(){
 }
 
 void saveSongData(){
-	
+
 	ofstream file;	// open file with playlists
 	file.open("memory/songData.txt");
 
@@ -327,7 +327,7 @@ void saveSongData(){
 	string tempSong, tempArtist, tempID, tempPopularity;
 	int popularity;
 
-	for(map<string,songData>::iterator it = songList.begin(); it != songList.end(); ++it){ 
+	for(map<string,songData>::iterator it = songList.begin(); it != songList.end(); ++it){
 		file << it -> second.songID << "\t" << it -> first << "\t" << it -> second.popularity <<"\n"; // prints out songID, name, then popularity
 	}
 
@@ -365,8 +365,76 @@ void savePlaylistStatus(){
 	file.close();
 }
 
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <stdio.h>
+
+using namespace std;
+
+int main( int argc, char *argv[] )
+{
+  string argString = str(argv);
+  argString.erase(argString.begin(), argString.begin()+8)   //stripping out arg[0]
+  interpretCommand(argString);
+  return;
+}
+
+void interpretCommand(string commandString)
+{
+  istringstream iss(commandString); //turning string into stringstream for easy space delimiting
+  char codeParam;
+  if (codeParam == 's')             //if start code
+  {
+    loadSongs();                    //load songs for first time
+    return;
+  }
+  iss >> codeParam;                 //codeParam is the first space delimited character of commandString
+  loadPlaylistData();
+  commandString.erase(commandString.begin(), commandString.begin()+2)
+  switch(codeParam)
+  {
+    case 'm' :
+      addPlaylist(commandString)
+      break;
+    case 'a' :
+      importPlaylists(commandString)
+      break;
+    case 't' :
+      findSongPrefixes(commandString)
+      break;
+    case 'p' :
+      getSongPlaylist(commandString)
+      break;
+    case 'l' :
+      mostPopularPlaylist()
+      break;
+    default case :
+      cout << "You done fucked up, son" << endl;
+  }
+}
+
+/*
+//christine main
+int main( int argc, char *argv[] )  {
+
+   if( argc == 2 ) {
+      printf("The argument supplied is %s\n", argv[1]);
+   }
+   else if( argc > 2 ) {
+      printf("Too many arguments supplied.\n");
+   }
+   else {
+      printf("One argument expected.\n");
+   }
+}
+*/
 
 
+
+/*
 int main(){
 
 	try{
@@ -398,7 +466,7 @@ int main(){
 		cout << "\nEnter Playlist to add: ";
 		getline(std::cin,userInput);
 		addPlaylist(userInput);
-	
+
 		// test listing most popular playlist
 		mostPopularPlaylist();
 
@@ -416,3 +484,4 @@ int main(){
 
 	return 0;
 }
+*/
