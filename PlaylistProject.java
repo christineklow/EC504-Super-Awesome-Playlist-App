@@ -15,8 +15,9 @@ public class PlaylistProject{
    public ArrayList executeCommand(String command, ArrayList parameters){
        String s;
        ArrayList dataList = new ArrayList();
-       for(int i = 0; i < parameters.size(), i++){
-         command = command + parameters[i];
+       command = command + "./a.out";
+       for(int i = 0; i < parameters.size(); i = i+1){
+         command = command + parameters.get(i);
        }
        try {
            Runtime rt = Runtime.getRuntime();
@@ -33,7 +34,7 @@ public class PlaylistProject{
         }
        return dataList;
    }
-
+   @SuppressWarnings("unchecked")
    public static void main(String[] args) {
 
         Color aColor = new Color(0x0DCCD6);
@@ -223,13 +224,13 @@ public class PlaylistProject{
         SearchPanel.add(t2, cSearch);
 
 
-        final DefaultListModel listModel = new DefaultListModel();
+        final DefaultListModel<String> listModel = new DefaultListModel<String>();
         //initialize should be blank
         listModel.addElement("Love Hurts");
         listModel.addElement("Love Letter");
         listModel.addElement("Love Song");
         listModel.addElement("Love Me Do");
-        final JList list = new JList(listModel);
+        final JList<String> list = new JList<String>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setFont(new Font("Monospaced", Font.PLAIN, 16));
         list.setSelectedIndex(0);
