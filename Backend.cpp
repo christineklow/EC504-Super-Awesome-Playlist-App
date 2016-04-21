@@ -219,7 +219,7 @@ void addPlaylist(string playlistInput){
 	removeLeastPopular();
 }
 
-bool importPlaylists(string filename){
+int importPlaylists(string filename){
 	
 	ifstream file;	// open file with playlists
 	file.open(filename);
@@ -229,9 +229,14 @@ bool importPlaylists(string filename){
 	// finds playlists the song is in
 	string playlistData;
 
+	int count = 0;
+
 	while( !file.eof() ){ 					
 		getline(file,playlistData,'\n');					// get playlist from line of file
 		if(playlistData != "") addPlaylist(playlistData);	// add the playlist to the database if its not an empty line
+
+		count++;
+		if(count == 128) return 2; // return 2 if there are more than 128 lines
 	}
 
 	playlistChange = true;
