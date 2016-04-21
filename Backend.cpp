@@ -19,13 +19,14 @@ struct songData {
         songData() : songID() {}
         songData(string newID)
          : songID(newID) {}
+         songData(string newID, int pop)
+         : songID(newID), popularity(pop) {}
 
         string songID;
         int popularity;
 };
 
 map<string,songData> songList;			// database of songs with the songID and popularity
-map<int*,string> popularSongs;			// pointer to song list sorted by popularity
 unordered_map<string,int> playlistDB;	// database of playlists with the popularity
 multimap<int,string> popularityDB;		// database of playlists sorted by popularity
 bool playlistChange = true;				// keeps track if any changes to the playlist database has been made
@@ -255,14 +256,127 @@ void mostPopularPlaylist(){
 	}
 }
 
+void loadPlaylistData(){
+	
+	ifstream file;	// open file with playlists
+	file.open("memory/playlistData.txt");
+
+	if( file.fail() ) throw "Error in loading playlists"; // if file did not open sucessfully, throw exception
+
+	string playlistData; // finds playlists the song is in
+
+	while( !file.eof() ){ 					
+		getline(file,playlistData,'\n');					// get playlist from line of file
+		if(playlistData != "") addPlaylist(playlistData);	// add the playlist to the database if its not an empty line
+	}
+
+	file.close();
+}
+
+void savePlaylistData(){
+	
+	ofstream file;	// output playlist data
+	file.open("memory/playlistData.txt");
+
+	if( file.fail() ) throw "Error in saving playlists"; // if file did not open sucessfully, throw exception
+
+	// output playlist
+	for( unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){
+
+		file << it -> first << "\t" << it -> second <<"\n"; // prints it out with playlist name then popularity
+	}
+
+	file.close();
+}
+
+void loadSongData(){
+	
+	ifstream file;	// open file with playlists
+	file.open("memory/songData.txt");
+
+	if( file.fail() ) throw "Error in loading songs"; // if file did not open sucessfully, throw exception
+
+	string playlistData; // finds playlists the song is in
+
+	// finds playlists the song is in
+	string tempSong, tempID, tempPopularity;
+	int popularity;
+
+	while( !file.eof() ){ 
+		getline (file,tempID,'\t');
+		getline (file,tempSong,'\t');
+		getline (file,tempPopularity,'\n');
+		popularity = stoi(tempPopularity,nullptr,10); 	// convert popularity from string to in
+		songList[tempSong] = songData(tempID,popularity);
+	}
+
+	file.close();
+}
+
+void saveSongData(){
+	
+	ofstream file;	// open file with playlists
+	file.open("memory/songData.txt");
+
+	if( file.fail() ) throw "Error in saving songs"; // if file did not open sucessfully, throw exception
+
+	string playlistData; // finds playlists the song is in
+
+	// finds playlists the song is in
+	string tempSong, tempArtist, tempID, tempPopularity;
+	int popularity;
+
+	for(map<string,songData>::iterator it = songList.begin(); it != songList.end(); ++it){ 
+		file << it -> second.songID << "\t" << it -> first << "\t" << it -> second.popularity <<"\n"; // prints out songID, name, then popularity
+	}
+
+	file.close();
+}
+
+// loads status of if playlist database has been changed
+void loadPlaylistStatus(){
+
+	ifstream file;	// open file with playlists
+	file.open("memory/playliststatus.txt");
+
+	if( file.fail() ) throw "Error in loading playlist database status"; // if file did not open sucessfully, throw exception
+
+	string tempStatus;
+
+	getline (file,tempStatus,'\n');
+
+	if(tempStatus == "1") playlistChange = true;
+	else playlistChange = false;
+
+	file.close();
+}
+
+// saves status of if playlist database has been changed
+void savePlaylistStatus(){
+
+	ofstream file;	// open file with playlists
+	file.open("memory/playliststatus.txt");
+
+	if( file.fail() ) throw "Error in saving playlist database status"; // if file did not open sucessfully, throw exception
+
+	file << playlistChange << "\n";
+
+	file.close();
+}
+
+
 
 int main(){
 
 	try{
 		loadSongs();
+		//importPlaylists("Datasets/all_playlists.txt");
 
 		string userInput;
-		importPlaylists("Datasets/all_playlists.txt");
+
+		//loadPlaylistData();
+		//loadSongData();
+		//loadPlaylistStatus();
 
 		/*************************************
 
@@ -288,6 +402,11 @@ int main(){
 		mostPopularPlaylist();
 
 		*************************************/
+
+		//saveSongData();
+		//savePlaylistData();
+		//savePlaylistStatus();
+
 
 	}
 	catch(const char* msg){ // Error in opening file
