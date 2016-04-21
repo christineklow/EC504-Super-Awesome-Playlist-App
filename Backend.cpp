@@ -369,63 +369,45 @@ void savePlaylistStatus(){
 
 void interpretCommand(char codeParam, string commandString)
 {
-  if (codeParam == 's')             //if start code
-  {
-    loadSongs();
-    importPlaylists("Datasets/day00.txt");                    //load songs for first time
-    saveSongData();
-    savePlaylistData();
-    savePlaylistStatus();
-    return;
-  }
-  loadPlaylistData();
-  loadSongData();
-  loadPlaylistStatus();
-  commandString.erase(commandString.begin(), commandString.begin()+2);
-  switch(codeParam)
-  {
-    case 'm' :
-      addPlaylist(commandString);
-      break;
-    case 'a' :
-      importPlaylists(commandString);
-      break;
-    case 't' :
-      findSongPrefixes(commandString);
-      break;
-    case 'p' :
-      getSongPlaylist(commandString);
-      break;
-    case 'l' :
-      //cout << "in l state"<<endl;
-      mostPopularPlaylist();
-      break;
-    default :
-      cout << "You done fucked up, son" << endl;
-  }
+	if (codeParam == 's'){             //if start code
+		loadSongs();
+		importPlaylists("Datasets/day00.txt");                    //load songs for first time
+	}
+	else{
+	  loadPlaylistData();
+	  loadSongData();
+	  loadPlaylistStatus();
+	  switch(codeParam){
+	    case 'm' : addPlaylist(commandString); break;
+	    case 'a' : importPlaylists(commandString); break;
+	    case 't' : findSongPrefixes(commandString); break;
+	    case 'p' : getSongPlaylist(commandString); break;
+	    case 'l' : { 
+	    	mostPopularPlaylist();
+	    }
+	      break;
+	    default : cout << "You done fucked up, son" << endl;
+	  }
+	}
   saveSongData();
   savePlaylistData();
   savePlaylistStatus();
   return;
 }
 
-int main( int argc, char *argv[] )
-{
-  char code = *argv[1]; // takes code
-  //cout << code <<endl;
-  string userInput; // takes input string
+int main( int argc, char *argv[] )	// strings must be in form: code "user input" ( i.e. a "Datasets/day01.txt")
+{ 
+	if(argc > 1){
+	    char code = *argv[1]; // takes code
+	    string userInput;
 
-  if(argc > 2){
-  	int i = 2;
-	for(; i < argc - 1; i++)
-	{
-		std::string arg2(argv[i]);
-	  	userInput += arg2 + " ";
-  }
-	std::string arg2(argv[i]);
-	userInput += arg2;
-}
-	interpretCommand(code, userInput);
+	    if(argc > 2) userInput = string(argv[2]); // takes input string
+
+	    if(argc == 4) userInput += "\t" + string(argv[3]); 	// ( i.e. m "1 2 3 4" 100)
+
+		interpretCommand(code, userInput);
+	}
+
   return 0;
 }
 
