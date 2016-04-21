@@ -142,14 +142,14 @@ public class PlaylistProject{
         //enter command here to get the top eight playlists
         //replace word "playlist"
         ArrayList<String> topSongs = executeCommand("l", "");
-        JLabel playlist1 = new JLabel();
-        JLabel playlist2 = new JLabel();
-        JLabel playlist3 = new JLabel();
-        JLabel playlist4 = new JLabel();
-        JLabel playlist5 = new JLabel();
-        JLabel playlist6 = new JLabel();
-        JLabel playlist7 = new JLabel();
-        JLabel playlist8 = new JLabel();
+        final JLabel playlist1 = new JLabel();
+        final JLabel playlist2 = new JLabel();
+        final JLabel playlist3 = new JLabel();
+        final JLabel playlist4 = new JLabel();
+        final JLabel playlist5 = new JLabel();
+        final JLabel playlist6 = new JLabel();
+        final JLabel playlist7 = new JLabel();
+        final JLabel playlist8 = new JLabel();
         if (topSongs.size() >= 1){
           playlist1.setText(topSongs.get(0));
           playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
