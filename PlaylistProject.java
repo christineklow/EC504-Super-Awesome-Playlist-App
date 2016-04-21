@@ -22,10 +22,8 @@ public class PlaylistProject{
            Process pr = rt.exec(command);
            BufferedReader br = new BufferedReader(new InputStreamReader(pr.getInputStream()));
            while ((s= br.readLine()) != null){
-             if (s != command && s != parameters){
                 dataList.add(s);
                 System.out.println(s);
-                }
               }
            pr.waitFor();
            pr.destroy();
