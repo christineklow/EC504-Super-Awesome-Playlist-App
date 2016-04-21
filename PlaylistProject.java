@@ -459,7 +459,7 @@ public class PlaylistProject{
                 if(textfield2.length() != 0){
                     listModel.removeAllElements();
                     //add elements from command line call here
-                    String toBackEnd = "\""+textfield2+"\"";
+                    String toBackEnd = textfield2;
                     System.out.println(toBackEnd);
                     ArrayList<String> newElements = executeCommand("t", toBackEnd);
                     //set visibility to the necessary amount here
