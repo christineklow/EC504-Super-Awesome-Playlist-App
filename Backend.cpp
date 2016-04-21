@@ -373,6 +373,9 @@ void interpretCommand(char codeParam, string commandString)
   {
     loadSongs();
     importPlaylists("Datasets/day00.txt");                    //load songs for first time
+    saveSongData();
+    savePlaylistData();
+    savePlaylistStatus();
     return;
   }
   loadPlaylistData();
@@ -394,6 +397,7 @@ void interpretCommand(char codeParam, string commandString)
       getSongPlaylist(commandString);
       break;
     case 'l' :
+      //cout << "in l state"<<endl;
       mostPopularPlaylist();
       break;
     default :
@@ -408,8 +412,10 @@ void interpretCommand(char codeParam, string commandString)
 int main( int argc, char *argv[] )
 {
   char code = *argv[1]; // takes code
-  cout << code <<endl;
+  //cout << code <<endl;
   string userInput; // takes input string
+  if(argc>2)
+  {
   int i = 2;
   for(; i < argc - 1; i++)
   {
@@ -418,6 +424,7 @@ int main( int argc, char *argv[] )
   }
   std::string arg2(argv[i]);
   userInput += arg2;
+  }
   interpretCommand(code, userInput);
   return 0;
 }
