@@ -12,13 +12,11 @@ import java.io.FilenameFilter;
 
 public class PlaylistProject{
     //going to the backend
-   public ArrayList executeCommand(String command, ArrayList parameters){
+   public static ArrayList<String> executeCommand(String command, String parameters){
        String s;
-       ArrayList dataList = new ArrayList();
-       command = command + "./a.out";
-       for(int i = 0; i < parameters.size(); i = i+1){
-         command = command + parameters.get(i);
-       }
+       ArrayList<String> dataList = new ArrayList<String>();
+       command = "./a.out " + command + " " + parameters;
+
        try {
            Runtime rt = Runtime.getRuntime();
            Process pr = rt.exec(command);
@@ -34,9 +32,9 @@ public class PlaylistProject{
         }
        return dataList;
    }
-   @SuppressWarnings("unchecked")
-   public static void main(String[] args) {
 
+   public static void main(String[] args) {
+        ArrayList<String> start = executeCommand("s", "");
         Color aColor = new Color(0x0DCCD6);
         Color bColor = new Color(0xCAE9EB);
 
@@ -143,9 +141,8 @@ public class PlaylistProject{
 
         //enter command here to get the top eight playlists
         //replace word "playlist"
-
         ArrayList<String> topSongs = executeCommand("l", "");
-        JLabel playlist1 = new JLabel("hi");
+        JLabel playlist1 = new JLabel();
         JLabel playlist2 = new JLabel();
         JLabel playlist3 = new JLabel();
         JLabel playlist4 = new JLabel();
@@ -153,6 +150,7 @@ public class PlaylistProject{
         JLabel playlist6 = new JLabel();
         JLabel playlist7 = new JLabel();
         JLabel playlist8 = new JLabel();
+        playlist1.setText("gfjh;");
         if (topSongs.size() >= 1){
           playlist1.setText(topSongs.get(0));
           playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -173,67 +171,58 @@ public class PlaylistProject{
           cPop.gridy = 2;
           PopularPanel.add(playlist2, cPop);
         }
-=======
 
->>>>>>> origin/master
+        if (topSongs.size() >= 3){
+          playlist3.setText(topSongs.get(2));
+          playlist3.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist3.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 3;
+          PopularPanel.add(playlist3, cPop);
+        }
 
-        JLabel playlist1 = new JLabel("playlist");
-        playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist1.setForeground(Color.WHITE);
-        cPop.insets = new Insets(0,0,0,0);
-        cPop.gridx = 0;
-        cPop.gridy = 1;
-        PopularPanel.add(playlist1, cPop);
+        if (topSongs.size() >= 4){
+          playlist4.setText(topSongs.get(3));
+          playlist4.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist4.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 4;
+          PopularPanel.add(playlist4, cPop);
+        }
 
-        JLabel playlist2 = new JLabel("playlist");
-        playlist2.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist2.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 2;
-        PopularPanel.add(playlist2, cPop);
+        if (topSongs.size() >= 5){
+          playlist5.setText(topSongs.get(4));
+          playlist5.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist5.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 5;
+          PopularPanel.add(playlist5, cPop);
+        }
+        if (topSongs.size() >= 6){
+          playlist6.setText(topSongs.get(5));
+          playlist6.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist6.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 6;
+          PopularPanel.add(playlist6, cPop);
+        }
 
-        JLabel playlist3 = new JLabel("playlist");
-        playlist3.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist3.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 3;
-        PopularPanel.add(playlist3, cPop);
-
-        JLabel playlist4 = new JLabel("playlist");
-        playlist4.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist4.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 4;
-        PopularPanel.add(playlist4, cPop);
-
-        JLabel playlist5 = new JLabel("playlist");
-        playlist5.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist5.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 5;
-        PopularPanel.add(playlist5, cPop);
-
-        JLabel playlist6 = new JLabel("playlist");
-        playlist6.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist6.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 6;
-        PopularPanel.add(playlist6, cPop);
-
-        JLabel playlist7 = new JLabel("playlist");
-        playlist7.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist7.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 7;
-        PopularPanel.add(playlist7, cPop);
-
-        JLabel playlist8 = new JLabel("playlist");
-        playlist8.setFont(new Font("Monospaced", Font.BOLD, 22));
-        playlist8.setForeground(Color.WHITE);
-        cPop.gridx = 0;
-        cPop.gridy = 8;
-        PopularPanel.add(playlist8, cPop);
-
+        if (topSongs.size() >= 7){
+          playlist7.setText(topSongs.get(6));
+          playlist7.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist7.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 7;
+          PopularPanel.add(playlist7, cPop);
+      }
+        if (topSongs.size() >= 8){
+          playlist8.setText(topSongs.get(7));
+          playlist8.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist8.setForeground(Color.WHITE);
+          cPop.gridx = 0;
+          cPop.gridy = 8;
+          PopularPanel.add(playlist8, cPop);
+        }
         //search song tab:
         JLabel esonglabel = new JLabel(" Enter Song");
         esonglabel.setFont(new Font("Monospaced", Font.BOLD, 22));
@@ -258,16 +247,13 @@ public class PlaylistProject{
 
 
         final DefaultListModel<String> listModel = new DefaultListModel<String>();
-        //initialize should be blank
-        listModel.addElement("Love Hurts");
-        listModel.addElement("Love Letter");
-        listModel.addElement("Love Song");
-        listModel.addElement("Love Me Do");
+        //initial should be blank
+
         final JList<String> list = new JList<String>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setFont(new Font("Monospaced", Font.PLAIN, 16));
         list.setSelectedIndex(0);
-        list.setVisibleRowCount(4);
+        list.setVisibleRowCount(0);
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setViewportView(list);
         cSearch.gridwidth = 3;
@@ -339,6 +325,7 @@ public class PlaylistProject{
         frame.setVisible(true);
 
 
+        //error codes for inputting files 0 - did not open 1 - good 2 - more than 128 lines
         startButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -348,26 +335,32 @@ public class PlaylistProject{
                     if (textfield1.length() == 0)
                         playlistLabel.setText("Input A Valid File!");
                     else{
-                        t1.setText(""); //check if this is okay
-                        //call on input playlist functions here!
-                        playlistLabel.setText("Playlist File Added!");
-                        //update top playlist
+                        ArrayList<String> error = executeCommand("a", t1.getText());
+                        if (error.get(0) == "1"){
+                          t1.setText(""); //check if this is okay
+                          playlistLabel.setText("Playlist File Added!");
+                        }
+                        else if (error.get(0) == "2"){
+                          playlistLabel.setText("Exceed ");
+                        }
+                        else if (error.get(0) == "0"){
+                          playlistLabel.setText("Could Not Open File");
+                        }
                     }
                 }
                 else if (n.isSelected()){
                     if (textfield1.length() == 0)
-                        playlistLabel.setText("Input A Valid File!");
+                        playlistLabel.setText("Input A Valid Playlist!");
                     else{
-                        t1.setText("");//check if this is okay
-                        //call on input playlist functions here
+                        //no error for manual
+                        ArrayList<String> error = executeCommand("m", t1.getText());
+                        t1.setText("");
                         playlistLabel.setText("Playlist Added!");
-                        //update top playlists
                     }
                 }
                 else{
                     playlistLabel.setText("Choose A Method!");
                 }
-<<<<<<< HEAD
                 //updating the top 8 playlists
                 ArrayList<String> topSongs = executeCommand("l", "");
                 if (topSongs.size() == 0){
@@ -398,9 +391,6 @@ public class PlaylistProject{
                 if (topSongs.size() >= 8){
                   playlist8.setText(topSongs.get(7));
                 }
-=======
-                //frame.pack();
->>>>>>> origin/master
                 frame.validate();
             }
         });
@@ -416,10 +406,7 @@ public class PlaylistProject{
                     ArrayList<String> songResults = executeCommand("p", textfield2);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
                 }
                 else{
                     searchLabel.setText("Input A Valid Song!");
@@ -451,18 +438,19 @@ public class PlaylistProject{
         });
 
 
-        Timer timer = new Timer(75, new ActionListener() {
+        Timer timer = new Timer(100, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //change and make boxes visible here
                 String textfield2 = t2.getText();
                 if(textfield2.length() != 0){
                     listModel.removeAllElements();
                     //add elements from command line call here
+                    ArrayList<String> newElements = executeCommand("t", textfield2);
                     //set visibility to the necessary amount here
-                    list.setVisibleRowCount(3);
-                    listModel.addElement("hello");
-                    listModel.addElement("hi");
-                    listModel.addElement(t2.getText());
+                    list.setVisibleRowCount(newElements.size());
+                    for (int i = 0; i < newElements.size(); i = i + 1){
+                      listModel.addElement(newElements.get(i));
+                    }
                     frame.revalidate();
                 }
 
