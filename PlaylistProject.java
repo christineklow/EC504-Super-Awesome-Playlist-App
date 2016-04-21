@@ -409,7 +409,8 @@ public class PlaylistProject{
                 String textfield2 = t2.getText();
                 if (textfield2.length() != 0){
                     String searchRes = "<html>Search Results:";
-                    String toBackEnd = "\""+textfield2+"\"";
+                    String toBackEnd = textfield2;
+                    System.out.println(toBackEnd);
                     ArrayList<String> songResults = executeCommand("p", toBackEnd);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();

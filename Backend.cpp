@@ -386,7 +386,7 @@ void interpretCommand(char codeParam, string commandString)
 	    	mostPopularPlaylist();
 	    }
 	      break;
-	    default : cout << "You done fucked up, son" << endl;
+	    default : cout << "invalid command" << endl;
 	  }
 	}
   saveSongData();
@@ -401,9 +401,16 @@ int main( int argc, char *argv[] )	// strings must be in form: code "user input"
 	    char code = *argv[1]; // takes code
 	    string userInput;
 
-	    if(argc > 2) userInput = string(argv[2]); // takes input string
+	    if(argc > 2 && code != 'm'){
+	    	int i = 2;
+	    	for(; i < argc - 1; i++)
+	     		userInput += string(argv[i]) + " "; // takes input string
+	     	userInput += string(argv[i]);
+		}
 
-	    if(argc == 4) userInput += "\t" + string(argv[3]); 	// ( i.e. m "1 2 3 4" 100)
+	    if(code == 'm') userInput += "\t" + string(argv[3]); 	// ( i.e. m "1 2 3 4" 100)
+
+	    cout<< userInput << endl;
 
 		interpretCommand(code, userInput);
 	}
