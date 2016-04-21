@@ -143,7 +143,7 @@ public class PlaylistProject{
 
         //enter command here to get the top eight playlists
         //replace word "playlist"
-<<<<<<< HEAD
+
         ArrayList<String> topSongs = executeCommand("l", "");
         JLabel playlist1 = new JLabel("hi");
         JLabel playlist2 = new JLabel();
