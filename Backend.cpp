@@ -222,6 +222,7 @@ void addPlaylist(string playlistInput){
 }
 
 int importPlaylists(string filename){
+	cout<<filename<<endl;
 
 	ifstream file;	// open file with playlists
 	file.open(filename);
@@ -420,72 +421,3 @@ int main( int argc, char *argv[] )	// strings must be in form: code "user input"
 
   return 0;
 }
-
-
-/*
-//christine main
-int main( int argc, char *argv[] )  {
-
-   if( argc == 2 ) {
-      printf("The argument supplied is %s\n", argv[1]);
-   }
-   else if( argc > 2 ) {
-      printf("Too many arguments supplied.\n");
-   }
-   else {
-      printf("One argument expected.\n");
-   }
-}
-*/
-
-
-
-/*
-int main(){
-
-	try{
-		loadSongs();
-		//importPlaylists("Datasets/day00.txt");
-
-		string userInput;
-
-		//loadPlaylistData();
-		//loadSongData();
-		//loadPlaylistStatus();
-
-
-		// testing song searching
-		cout << "\nEnter Song to Search: ";
-		getline(std::cin,userInput);
-		getSongPlaylist(userInput);
-
-		// testing song popularity
-		cout<< userInput << " Popularity: " << updateSongPopularity(userInput) <<endl;
-
-		// test finding prefixes
-		cout << "\nEnter prefix: ";
-		getline(std::cin,userInput);
-		findSongPrefixes(userInput);
-
-		// testing adding playlist and listing most popular
-		cout << "\nEnter Playlist to add: ";
-		getline(std::cin,userInput);
-		addPlaylist(userInput);
-
-		// test listing most popular playlist
-		mostPopularPlaylist();
-
-
-		//saveSongData();
-		//savePlaylistData();
-		//savePlaylistStatus();
-
-
-	}
-	catch(const char* msg){ // Error in opening file
-		cerr << msg << endl;
-	}
-
-	return 0;
-}
-*/
