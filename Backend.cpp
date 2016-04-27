@@ -222,7 +222,6 @@ void addPlaylist(string playlistInput){
 }
 
 int importPlaylists(string filename){
-	cout<<filename<<endl;
 
 	ifstream file;	// open file with playlists
 	file.open(filename);
@@ -383,10 +382,7 @@ void interpretCommand(char codeParam, string commandString)
 	    case 'a' : importPlaylists(commandString); break;
 	    case 't' : findSongPrefixes(commandString); break;
 	    case 'p' : getSongPlaylist(commandString); break;
-	    case 'l' : { 
-	    	mostPopularPlaylist();
-	    }
-	      break;
+	    case 'l' : mostPopularPlaylist(); break;
 	    default : cout << "invalid command" << endl;
 	  }
 	}

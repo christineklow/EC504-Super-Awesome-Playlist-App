@@ -24,7 +24,7 @@ public class PlaylistProject{
            BufferedReader br = new BufferedReader(new InputStreamReader(pr.getInputStream()));
            while ((s= br.readLine()) != null){
                 dataList.add(s);
-                System.out.println(s);
+                //System.out.println(s);
               }
            pr.waitFor();
            pr.destroy();
@@ -461,7 +461,7 @@ public class PlaylistProject{
                     listModel.removeAllElements();
                     //add elements from command line call here
                     String toBackEnd = textfield2;
-                    System.out.println(toBackEnd);
+                    //System.out.println(toBackEnd);
                     ArrayList<String> newElements = executeCommand("t", toBackEnd);
                     //set visibility to the necessary amount here
                     list.setVisibleRowCount(newElements.size());
