@@ -13,6 +13,7 @@ import java.io.FilenameFilter;
 public class PlaylistProject{
     //going to the backend
    public static String currentInput;
+   public static ArrayList<String> songResults;
    public static ArrayList<String> executeCommand(String command, String parameters){
        String s;
        ArrayList<String> dataList = new ArrayList<String>();
@@ -24,7 +25,6 @@ public class PlaylistProject{
            BufferedReader br = new BufferedReader(new InputStreamReader(pr.getInputStream()));
            while ((s= br.readLine()) != null){
                 dataList.add(s);
-                //System.out.println(s);
               }
            pr.waitFor();
            pr.destroy();
@@ -134,98 +134,75 @@ public class PlaylistProject{
 
 
         //popular playlist tab
+
+        JSplitPane splitPopPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPopPane.setDividerLocation(125);
+        splitPopPane.setDividerSize(0);
+        splitPopPane.setEnabled(false);
+
+        JPanel HolderPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints cH = new GridBagConstraints();
+
         JLabel titlePop = new JLabel("Top Eight Playlists");
         titlePop.setFont(new Font("Monospaced", Font.BOLD, 30));
         titlePop.setForeground(Color.WHITE);
         cPop.gridx = 0;
         cPop.gridy = 0;
+        cPop.weightx = 2;
         cPop.insets = new Insets(0,0,30,0);
         PopularPanel.add(titlePop, cPop);
-
+        //
+        String[] options = { "Playlist 1", "Playlist 2", "Playlist 3", "Playlist 4", "Playlist 5", "Playlist 6", "Playlist 7", "Playlist 8"};
+        JList<String> choiceList = new JList<String>(options);
+        choiceList.setSelectedIndex(0);
+        choiceList.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        choiceList.setBackground(bColor);
+        cH.gridx = 0;
+        cH.gridy = 0;
+        cH.weightx = 1;
+        cH.insets = new Insets(0,0,0,0);
+        HolderPanel.add(choiceList,cH);
+        choiceList.setVisibleRowCount(1);
         //enter command here to get the top eight playlists
         //replace word "playlist"
         ArrayList<String> topSongs = executeCommand("l", "");
         final JLabel playlist1 = new JLabel();
-        final JLabel playlist2 = new JLabel();
-        final JLabel playlist3 = new JLabel();
-        final JLabel playlist4 = new JLabel();
-        final JLabel playlist5 = new JLabel();
-        final JLabel playlist6 = new JLabel();
-        final JLabel playlist7 = new JLabel();
-        final JLabel playlist8 = new JLabel();
+
         if (topSongs.size() >= 1){
-          playlist1.setText(topSongs.get(0));
-          playlist1.setFont(new Font("Monospaced", Font.BOLD, 22));
+          playlist1.setText("");
+          playlist1.setFont(new Font("Monospaced", Font.BOLD, 16));
           playlist1.setForeground(Color.WHITE);
-          cPop.insets = new Insets(0,0,0,0);
-          cPop.gridx = 0;
-          cPop.gridy = 1;
-          PopularPanel.add(playlist1, cPop);
+          cH.insets = new Insets(0,0,0,0);
+          cH.gridx = 1;
+          cH.gridy = 0;
+          HolderPanel.add(playlist1, cH);
         }
         if (topSongs.size() == 0){
           playlist1.setText("None Currently");
         }
-        if (topSongs.size() >= 2){
-          playlist2.setText(topSongs.get(1));
-          playlist2.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist2.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 2;
-          PopularPanel.add(playlist2, cPop);
-        }
 
-        if (topSongs.size() >= 3){
-          playlist3.setText(topSongs.get(2));
-          playlist3.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist3.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 3;
-          PopularPanel.add(playlist3, cPop);
-        }
+        String str1 = topSongs.get(0);
+        String[] playListJ = str1.split("\\s*,\\s*");
+       String holder1 = "<html>";
+         for (int j = 0; j < playListJ.length; j = j + 1){
+          holder1 = holder1 + playListJ[j]+"<br>";
+         }
+         holder1 = holder1 + "</html>";
+         playlist1.setText(holder1);
 
-        if (topSongs.size() >= 4){
-          playlist4.setText(topSongs.get(3));
-          playlist4.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist4.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 4;
-          PopularPanel.add(playlist4, cPop);
-        }
+        splitPopPane.setLeftComponent(PopularPanel);
+        splitPopPane.setRightComponent(HolderPanel);
 
-        if (topSongs.size() >= 5){
-          playlist5.setText(topSongs.get(4));
-          playlist5.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist5.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 5;
-          PopularPanel.add(playlist5, cPop);
-        }
-        if (topSongs.size() >= 6){
-          playlist6.setText(topSongs.get(5));
-          playlist6.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist6.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 6;
-          PopularPanel.add(playlist6, cPop);
-        }
-
-        if (topSongs.size() >= 7){
-          playlist7.setText(topSongs.get(6));
-          playlist7.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist7.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 7;
-          PopularPanel.add(playlist7, cPop);
-      }
-        if (topSongs.size() >= 8){
-          playlist8.setText(topSongs.get(7));
-          playlist8.setFont(new Font("Monospaced", Font.BOLD, 22));
-          playlist8.setForeground(Color.WHITE);
-          cPop.gridx = 0;
-          cPop.gridy = 8;
-          PopularPanel.add(playlist8, cPop);
-        }
         //search song tab:
+
+        JSplitPane splitSearchPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitSearchPane.setDividerLocation(300);
+        splitSearchPane.setDividerSize(0);
+        splitSearchPane.setEnabled(false);
+
+        final JPanel ResultsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints cR = new GridBagConstraints();
+
         JLabel esonglabel = new JLabel(" Enter Song");
         esonglabel.setFont(new Font("Monospaced", Font.BOLD, 22));
         esonglabel.setForeground(Color.WHITE);
@@ -278,33 +255,59 @@ public class PlaylistProject{
         cSearch.gridy = 7;
         SearchPanel.add(submitButton, cSearch);
 
-        //search Results
-        final JLabel searchLabel = new JLabel("");
-        searchLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
+        /*search Results
+        final JLabel searchLabel = new JLabel("Search Results");
+        searchLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
         searchLabel.setOpaque(true);
         searchLabel.setBackground(bColor);
-        cSearch.insets = new Insets(50,0,0,0);
-        cSearch.gridwidth = 1;
-        cSearch.weightx = 0.5;
-        cSearch.gridx = 1;
-        cSearch.gridy = 8;
-        SearchPanel.add(searchLabel, cSearch);
+        cR.insets = new Insets(0,0,0,0);
+        cR.gridwidth = 1;
+        cR.weightx = 0.5;
+        cR.gridx = 0;
+        cR.gridy = 0;
+        ResultsPanel.add(searchLabel, cR);*/
+
+        final DefaultListModel<String> finalPL = new DefaultListModel<String>();
+        JList<String> finalList = new JList<String>(finalPL);
+        JScrollPane scroller = new JScrollPane(finalList);
+        scroller.setViewportView(finalList);
+        finalList.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        finalList.setBackground(bColor);
+        cR.gridx = 1;
+        cR.gridy = 0;
+        cR.weightx = 2;
+        cR.insets = new Insets(0,0,0,0);
+        ResultsPanel.add(scroller,cR);
+
+        JList<String> resultList = new JList<String>(options);
+        resultList.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        resultList.setBackground(bColor);
+        resultList.setSelectedIndex(0);
+        cR.gridx = 0;
+        cR.gridy = 0;
+        cR.weightx = 1;
+        cR.insets = new Insets(0,0,0,0);
+        ResultsPanel.add(resultList,cR);
+
+        splitSearchPane.setLeftComponent(SearchPanel);
+        splitSearchPane.setRightComponent(ResultsPanel);
 
 
-
-        PlayListPanel.setBackground(aColor);
         PopularPanel.setBackground(aColor);
+        PlayListPanel.setBackground(aColor);
+        HolderPanel.setBackground(aColor);
         TitlePanel.setBackground(aColor);
         SearchPanel.setBackground(aColor);
+        ResultsPanel.setBackground(aColor);
         PlayListPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
-        SearchPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
-        PopularPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
+        splitPopPane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
+        splitSearchPane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
 
         JTabbedPane categories = new JTabbedPane();
         categories.setFont(new Font("Monospaced", Font.PLAIN, 20) );
         categories.addTab("Enter Playlist", PlayListPanel);
-        categories.addTab("Top Playlists", PopularPanel);
-        categories.addTab("Search Song", SearchPanel);
+        categories.addTab("Top Playlists", splitPopPane);
+        categories.addTab("Search Song", splitSearchPane);
 
         categories.setForeground(aColor);
         categories.setBackground(Color.WHITE);
@@ -326,7 +329,7 @@ public class PlaylistProject{
             }
         });
         frame.add(splitPane);
-        frame.setSize(800, 800);
+        frame.setSize(900, 900);
         frame.setVisible(true);
 
 
@@ -373,30 +376,19 @@ public class PlaylistProject{
                   playlist1.setText("None Currently");
                 }
 
+                int i = 0;
+
                 if (topSongs.size() >= 1){
-                  playlist1.setText(topSongs.get(0));
-                }
-                if (topSongs.size() >= 2){
-                  playlist2.setText(topSongs.get(1));
-                }
-                if (topSongs.size() >= 3){
-                  playlist3.setText(topSongs.get(2));
-                }
-                if (topSongs.size() >= 4){
-                  playlist4.setText(topSongs.get(3));
-                }
-                if (topSongs.size() >= 5){
-                  playlist5.setText(topSongs.get(4));
-                }
-                if (topSongs.size() >= 6){
-                  playlist6.setText(topSongs.get(5));
-                }
-                if (topSongs.size() >= 7){
-                  playlist7.setText(topSongs.get(6));
-                }
-                if (topSongs.size() >= 8){
-                  playlist8.setText(topSongs.get(7));
-                }
+                String str = topSongs.get(i);
+                String[] playListI = str.split("\\s*,\\s*");
+                 String holder = "<html>";
+                 for (int j = 0; j < playListI.length; j = j + 1){
+                    holder = holder + playListI[j]+"<br>";
+                 }
+                 holder = holder+ "</html>";
+                 playlist1.setText(holder);
+               }
+
                 frame.validate();
             }
         });
@@ -406,25 +398,28 @@ public class PlaylistProject{
             public void actionPerformed(ActionEvent e)
             {
                 //search Results
+                finalPL.removeAllElements();
                 String textfield2 = t2.getText();
                 if (textfield2.length() != 0){
-                    String searchRes = "<html>Search Results:";
+                    String searchRes = "";
                     String toBackEnd = textfield2;
-                    System.out.println(toBackEnd);
-                    ArrayList<String> songResults = executeCommand("p", toBackEnd);
+                    songResults = executeCommand("p", toBackEnd);
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
                     if (songResults.size() == 0){
-                      searchRes = searchRes + "<br>No Playlists Found";
+                      searchRes = searchRes + "No Playlists Found";
+                      finalPL.addElement(searchRes);
                     }
-                    for (int i = 0; i < songResults.size(); i = i+1){
-                      searchRes = searchRes+ "<br>"+songResults.get(i);
+                    else{
+                       String str = songResults.get(0);
+                       String[] playListI = str.split("\\s*,\\s*");
+                       for (int j = 0; j < playListI.length; j = j + 1){
+                          finalPL.addElement(playListI[j]);
+                      }
                     }
-                    searchRes = searchRes + "</html>";
-                    searchLabel.setText(searchRes);
                 }
                 else{
-                    searchLabel.setText("Input A Valid Song!");
+                    finalPL.addElement("Input A Valid Song!");
                     list.setVisibleRowCount(0);
                     listModel.removeAllElements();
                 }
@@ -452,16 +447,14 @@ public class PlaylistProject{
 
         });
 
-
         Timer timer = new Timer(100, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //change and make boxes visible here
                 String textfield2 = t2.getText();
-                if(textfield2.length() != 0){
+                if(textfield2.length() != 0 && !(textfield2.equals(currentInput))){
                     listModel.removeAllElements();
                     //add elements from command line call here
                     String toBackEnd = textfield2;
-                    //System.out.println(toBackEnd);
                     ArrayList<String> newElements = executeCommand("t", toBackEnd);
                     //set visibility to the necessary amount here
                     list.setVisibleRowCount(newElements.size());
@@ -478,13 +471,106 @@ public class PlaylistProject{
 
 
         //to select the proper autocomplete option
-        MouseListener mouseListener = new MouseAdapter() {
+        MouseListener mouseListener1 = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 String selectedItem = (String) list.getSelectedValue();
                 t2.setText(selectedItem);
             }
         };
-        list.addMouseListener(mouseListener);
+        list.addMouseListener(mouseListener1);
+
+        MouseListener mouseListener2 = new MouseAdapter() {
+           public void mouseClicked(MouseEvent e) {
+               String selectedItem = (String) choiceList.getSelectedValue();
+               int i = 0;
+               switch (selectedItem) {
+                  case "Playlist 1": i = 0;
+                     break;
+                  case "Playlist 2": i = 1;
+                     break;
+                  case "Playlist 3": i = 2;
+                     break;
+                  case "Playlist 4": i = 3;
+                     break;
+                  case "Playlist 5": i = 4;
+                     break;
+                  case "Playlist 6": i = 5;
+                     break;
+                  case "Playlist 7": i = 6;
+                     break;
+                  case "Playlist 8": i = 7;
+                     break;
+               }
+               ArrayList<String> topSongs = executeCommand("l", "");
+               if (topSongs.size() == 0){
+                 playlist1.setText("None Currently Found");
+               }
+
+               if (topSongs.size() >= 1){
+                String str = topSongs.get(i);
+                String[] playListI = str.split("\\s*,\\s*");
+                String holder = "<html>";
+                 for (int j = 0; j < playListI.length; j = j + 1){
+                    holder = holder+ playListI[j]+"<br>";
+                 }
+                 holder = holder+ "</html>";
+                 playlist1.setText(holder);
+               }
+
+           }
+       };
+       choiceList.addMouseListener(mouseListener2);
+
+       //to select the proper autocomplete option
+       MouseListener mouseListener3 = new MouseAdapter() {
+           public void mouseClicked(MouseEvent e) {
+               String selectedItem = (String) resultList.getSelectedValue();
+               int i = 0;
+               switch (selectedItem) {
+                  case "Playlist 1": i = 0;
+                     break;
+                  case "Playlist 2": i = 1;
+                     break;
+                  case "Playlist 3": i = 2;
+                     break;
+                  case "Playlist 4": i = 3;
+                     break;
+                  case "Playlist 5": i = 4;
+                     break;
+                  case "Playlist 6": i = 5;
+                     break;
+                  case "Playlist 7": i = 6;
+                     break;
+                  case "Playlist 8": i = 7;
+                     break;
+               }
+               finalPL.removeAllElements();
+               if (songResults.size() == 0){
+                 finalPL.addElement("No Playlists Currently Found");
+               }
+
+               if (songResults.size() >= 1){
+                  if ( i >= songResults.size()){
+                     String num = String.valueOf(songResults.size());
+                      finalPL.addElement("There are Only");
+                      finalPL.addElement(num+" Playlists");
+                      finalPL.addElement("Matching Your Song");
+                     //searchLabel.setText(holder);
+                  }
+                  else{
+                     String str = songResults.get(i);
+                     String[] playListI = str.split("\\s*,\\s*");
+                     //String holder = "<html>";
+                     for (int j = 0; j < playListI.length; j = j + 1){
+                       //holder = holder + playListI[j]+"<br>";
+                        finalPL.addElement(playListI[j]);
+                    }
+                    //searchLabel.setText(holder);
+                 }
+               }
+           }
+       };
+       resultList.addMouseListener(mouseListener3);
 
         //radio button listeners for browsing files and formatting
         y.addActionListener(new ActionListener() {
