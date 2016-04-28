@@ -348,18 +348,17 @@ void savePlaylistStatus(){
 
 void interpretCommand(char codeParam, string commandString)
 {
-	if (codeParam == 's'){             //if start code
+	if (codeParam == 's'){             // program start code
 		//loadSongs();
-		importPlaylists("Datasets/day00.txt");                    //load songs for first time
+		importPlaylists("Datasets/day00.txt");   // import playlists for first time
 	}
 	else{
 	  loadSongs();
 	  loadPlaylistData();
-	  //loadSongData();
 	  loadPlaylistStatus();
 	  switch(codeParam){
 	    case 'm' : addPlaylist(commandString); break;
-	    case 'a' : importPlaylists(commandString); break;
+	    case 'a' : cout<<importPlaylists(commandString)<<endl; break;
 	    case 't' : findSongPrefixes(commandString); break;
 	    case 'p' : getSongPlaylist(commandString); break;
 	    case 'l' : mostPopularPlaylist(); break;
