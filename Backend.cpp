@@ -13,21 +13,21 @@
 #include <utility>
 #include <unordered_map>
 #include <stdio.h>
+#include <vector>
 
 using namespace std;
 
 struct songData {
         songData() : songID() {}
-        songData(string newID)
-         : songID(newID) {}
-         songData(string newID, int pop)
-         : songID(newID), popularity(pop) {}
+        songData(string songName, string newID)
+         : name(songName), songID(newID) {}
 
-        string songID;
+        string name, songID;
         int popularity;
 };
 
-map<string,songData> songList;			// database of songs with the songID and popularity
+vector<songData*> songDataDB;			// stores songData
+map<string,songData*> songList;			// database of songData sorted by name
 unordered_map<string,int> playlistDB;	// database of playlists with the popularity
 multimap<int,string> popularityDB;		// database of playlists sorted by popularity
 bool playlistChange = true;				// keeps track if any changes to the playlist database has been made
@@ -42,12 +42,15 @@ void loadSongs(){
 
 	// finds playlists the song is in
 	string tempSong, tempArtist, tempID;
+	int i = 0;
 
 	while( !file.eof() ){ 					/*** O(n) where n is # of characters in file ***/
 		getline (file,tempID,'\t');
 		getline (file,tempSong,'\t');
 		getline (file,tempArtist,'\n');
-		songList[tempSong] = songData(tempID);
+		songDataDB.push_back( new songData(tempSong, tempID) );
+		songList[tempSong] = songDataDB[i];
+		i++;
 	}
 
 	file.close(); // close file
@@ -55,9 +58,9 @@ void loadSongs(){
 }
 
 // returns iterator of song if it exists in database
-map<string,songData>::iterator getSong(string searchName){ 	/*** finding a string using map is O(mlogn)  where m is string length, n is # of elements in map***/
+map<string,songData*>::iterator getSong(string searchName){ 	/*** finding a string using map is O(mlogn)  where m is string length, n is # of elements in map***/
 
-	map<string,songData>::iterator it;
+	map<string,songData*>::iterator it;
 	it = songList.find(searchName);		// Search for song in database
 
 	return it;
@@ -68,7 +71,7 @@ map<string,songData>::iterator getSong(string searchName){ 	/*** finding a strin
 int updateSongPopularity(string songName){
 
 	// first obtain pointer to song if it exists
-	map<string,songData>::iterator songSearch = getSong(songName);
+	map<string,songData*>::iterator songSearch = getSong(songName);
 
 	int songPopularity = 0;
 	string tempSong;
@@ -80,14 +83,14 @@ int updateSongPopularity(string songName){
 
 			stringstream ss(it -> first);
 			while(getline(ss,tempSong,' ')){					// get playlist songs from input
-				if(tempSong == songSearch -> second.songID){	// if the playlist contains the song
+				if(tempSong == songSearch -> second->songID){	// if the playlist contains the song
 					songPopularity += it -> second; 			// update song popularity based on sum of playlist popularity
 					break;
 				}
 			}
 		}
 
-		songSearch -> second.popularity = songPopularity;
+		songSearch -> second->popularity = songPopularity;
 
 	}
 
@@ -95,7 +98,7 @@ int updateSongPopularity(string songName){
 }
 
 void findSongPrefixes(string prefix) {
-    map<string,songData>::const_iterator it = songList.lower_bound(prefix); // looks for song that starts with prefix
+    map<string,songData*>::const_iterator it = songList.lower_bound(prefix); // looks for song that starts with prefix
     int prefixLength = prefix.size();
     string songMatch;
     multimap<int,string> songsWithPrefix;	// list of songs that has the prefix sorted by popularity
@@ -105,7 +108,7 @@ void findSongPrefixes(string prefix) {
 	        songMatch = it->first;
 	        if (songMatch.compare(0, prefixLength, prefix) == 0){ 			// check to see it if it a prefix
 	            if(playlistChange) updateSongPopularity(it -> first);		// update song's popularity if there was a change to the playlist databse
-	            songsWithPrefix.insert( std::pair<int,string>(it -> second.popularity, it -> first) );	// add song to map sorted by popularity
+	            songsWithPrefix.insert( std::pair<int,string>(it -> second->popularity, it -> first) );	// add song to map sorted by popularity
 	        }
 	        it++;
 	    }while(songMatch.compare(0, prefixLength, prefix) == 0); // check if there is anymore songs with prefix
@@ -120,11 +123,28 @@ void findSongPrefixes(string prefix) {
 	}
 }
 
+void printPlaylistSongs(string playlistSongs){
+	stringstream ss(playlistSongs);
+	string tempSong;
+	int songID;
+
+	getline(ss,tempSong,' ');
+	songID = stoi(tempSong,nullptr,10); 		// convert to songID to int
+	string songNames = songDataDB[songID]->name;	// add song name to the playlist's song list
+
+	while(getline(ss,tempSong,' ')){			// parse playlist songs
+		songID = stoi(tempSong,nullptr,10); 	// convert to songID to int
+		songNames += ", " + songDataDB[songID]->name;	// add song name to the playlist's song list
+	}
+
+	cout<< songNames <<endl;	// print out playlist's song names
+}
+
 // returns playlists that contain songs
 void getSongPlaylist(string searchName){
 
 	// first obtain song id number if it exists
-	map<string,songData>::iterator songSearch = getSong(searchName);
+	map<string,songData*>::iterator songSearch = getSong(searchName);
 
 	if(songSearch != songList.end()){ 	// song exists in database
 
@@ -137,7 +157,7 @@ void getSongPlaylist(string searchName){
 
 			stringstream ss(it -> first);
 			while(getline(ss,tempSong,' ')){					// get playlist songs from input
-				if(tempSong == songSearch -> second.songID){
+				if(tempSong == songSearch -> second->songID){
 					songPlaylists.insert( std::pair<int,string>(it -> second, it -> first) );	// add playlist to songPlaylists sorted automatically by popularity
 					songPopularity += it -> second; 			// update song popularity based on sum of playlist popularity
 					break;
@@ -146,18 +166,20 @@ void getSongPlaylist(string searchName){
 
 		}
 
-		songSearch -> second.popularity = songPopularity;	// update song popularity
+		songSearch -> second->popularity = songPopularity;	// update song popularity
 
 		// list top 8 playlists
 		multimap<int, string>:: iterator it = songPlaylists.end();
 		for( int count = 0; count < 8 && it != songPlaylists.begin() ; count++){ /*** O(n) where n is 8 ***/
 			it--;
-			cout<< it -> second <<endl;
+			printPlaylistSongs( it -> second );
 		}
 
 
 	}
 	else cout<<"Song does not exist in database"<<endl;
+
+	playlistChange = true;
 }
 
 // function removes least popular playlist from the database if there are more than 1024 playlists
@@ -254,7 +276,8 @@ void mostPopularPlaylist(){
 	// list top 8 playlists
 	for( int count = 0; count < 8 && it != popularityDB.begin() ; count++){
 		it--;
-		cout<< it -> second <<endl;
+		//cout<< it -> second <<endl;
+		printPlaylistSongs( it -> second );
 	}
 }
 
@@ -286,50 +309,6 @@ void savePlaylistData(){
 	for( unordered_map<string, int>:: iterator it = playlistDB.begin(); it != playlistDB.end(); ++it){
 
 		file << it -> first << "\t" << it -> second <<"\n"; // prints it out with playlist name then popularity
-	}
-
-	file.close();
-}
-
-void loadSongData(){
-
-	ifstream file;	// open file with playlists
-	file.open("memory/songData.txt");
-
-	if( file.fail() ) throw "Error in loading songs"; // if file did not open sucessfully, throw exception
-
-	string playlistData; // finds playlists the song is in
-
-	// finds playlists the song is in
-	string tempSong, tempID, tempPopularity;
-	int popularity;
-
-	while( !file.eof() ){
-		getline (file,tempID,'\t');
-		getline (file,tempSong,'\t');
-		getline (file,tempPopularity,'\n');
-		popularity = stoi(tempPopularity,nullptr,10); 	// convert popularity from string to in
-		songList[tempSong] = songData(tempID,popularity);
-	}
-
-	file.close();
-}
-
-void saveSongData(){
-
-	ofstream file;	// open file with playlists
-	file.open("memory/songData.txt");
-
-	if( file.fail() ) throw "Error in saving songs"; // if file did not open sucessfully, throw exception
-
-	string playlistData; // finds playlists the song is in
-
-	// finds playlists the song is in
-	string tempSong, tempArtist, tempID, tempPopularity;
-	int popularity;
-
-	for(map<string,songData>::iterator it = songList.begin(); it != songList.end(); ++it){
-		file << it -> second.songID << "\t" << it -> first << "\t" << it -> second.popularity <<"\n"; // prints out songID, name, then popularity
 	}
 
 	file.close();
@@ -370,12 +349,13 @@ void savePlaylistStatus(){
 void interpretCommand(char codeParam, string commandString)
 {
 	if (codeParam == 's'){             //if start code
-		loadSongs();
+		//loadSongs();
 		importPlaylists("Datasets/day00.txt");                    //load songs for first time
 	}
 	else{
+	  loadSongs();
 	  loadPlaylistData();
-	  loadSongData();
+	  //loadSongData();
 	  loadPlaylistStatus();
 	  switch(codeParam){
 	    case 'm' : addPlaylist(commandString); break;
@@ -386,7 +366,7 @@ void interpretCommand(char codeParam, string commandString)
 	    default : cout << "invalid command" << endl;
 	  }
 	}
-  saveSongData();
+  //saveSongData();
   savePlaylistData();
   savePlaylistStatus();
   return;
