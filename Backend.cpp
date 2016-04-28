@@ -366,9 +366,12 @@ void interpretCommand(char codeParam, string commandString)
 	    default : cout << "invalid command" << endl;
 	  }
 	}
-  //saveSongData();
-  savePlaylistData();
-  savePlaylistStatus();
+
+  savePlaylistData();		// save playlist data
+  savePlaylistStatus();		// save whether any new playlists has been added
+  songDataDB.clear();		// erase songData to clear memory
+
+
   return;
 }
 
@@ -394,6 +397,7 @@ int main( int argc, char *argv[] )	// strings must be in form: code "user input"
 
 		interpretCommand(code, userInput);
 	}
+
 
   return 0;
 }
