@@ -15,17 +15,16 @@ public class PlaylistProject{
    public static String currentInput;
    public static ArrayList<String> songResults;
    public static ArrayList<String> executeCommand(String command, String parameters){
-       String s;
+       String s = "hi";
        ArrayList<String> dataList = new ArrayList<String>();
        command = "./a.out " + command + " " + parameters;
-
        try {
            Runtime rt = Runtime.getRuntime();
            Process pr = rt.exec(command);
            BufferedReader br = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-           while ((s= br.readLine()) != null){
-                dataList.add(s);
-              }
+           while ((s = br.readLine()) != null){
+               dataList.add(s);
+             }
            pr.waitFor();
            pr.destroy();
        }
@@ -343,17 +342,17 @@ public class PlaylistProject{
                     if (textfield1.length() == 0)
                         playlistLabel.setText("Input A Valid File!");
                     else{
-                        ArrayList<String> error = executeCommand("a", t1.getText());
-                        if (error.get(0) == "1"){
+                        ArrayList<String> error = executeCommand("a", textfield1);
+                        //if (error.get(0) == "1"){
                           t1.setText(""); //check if this is okay
                           playlistLabel.setText("Playlist File Added!");
-                        }
-                        else if (error.get(0) == "2"){
-                          playlistLabel.setText("Exceed ");
-                        }
-                        else if (error.get(0) == "0"){
-                          playlistLabel.setText("Could Not Open File");
-                        }
+                        //}
+                        //else if (error.get(0) == "2"){
+                          //playlistLabel.setText("Exceed ");
+                        //}
+                        //else if (error.get(0) == "0"){
+                         // playlistLabel.setText("Could Not Open File");
+                        //}
                     }
                 }
                 else if (n.isSelected()){
@@ -373,7 +372,7 @@ public class PlaylistProject{
                 //updating the top 8 playlists
                 ArrayList<String> topSongs = executeCommand("l", "");
                 if (topSongs.size() == 0){
-                  playlist1.setText("None Currently");
+                  playlist1.setText("No Playlists Found");
                 }
 
                 int i = 0;
@@ -503,7 +502,7 @@ public class PlaylistProject{
                }
                ArrayList<String> topSongs = executeCommand("l", "");
                if (topSongs.size() == 0){
-                 playlist1.setText("None Currently Found");
+                 playlist1.setText("None Playlists Found");
                }
 
                if (topSongs.size() >= 1){
@@ -546,7 +545,7 @@ public class PlaylistProject{
                }
                finalPL.removeAllElements();
                if (songResults.size() == 0){
-                 finalPL.addElement("No Playlists Currently Found");
+                 finalPL.addElement("No Playlists Found");
                }
 
                if (songResults.size() >= 1){
